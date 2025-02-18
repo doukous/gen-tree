@@ -26,6 +26,8 @@ export class Vertex {
          */
         this.secondCoordinate = this.secondDegree()
 
+        this.box.registerVertex(this)
+        this.point.registerVertex(this)
     }
 
     firstDegree() {
@@ -46,9 +48,21 @@ export class Vertex {
         return {x, y}
     }
 
+    updateCoordinate(element) {
+        console.log("updateCoordinate", element)
+        if (element === this.box) {
+            this.firstCoordinate = this.firstDegree()
+        }
+
+        else if (element === this.point) {
+            this.secondCoordinate = this.secondDegree()
+        }
+    }
+
     draw(ctx) {
         ctx.beginPath()
         ctx.moveTo(this.firstCoordinate.x, this.firstCoordinate.y)
+
         if (this.isParent) {
             ctx.bezierCurveTo(
                 this.firstCoordinate.x, this.firstCoordinate.y + 60,

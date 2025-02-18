@@ -23,21 +23,26 @@ const v5 = new Vertex(s3, p)
 
 const elementList = [f, m, p, s1, s2, s3]
 const vertexList = [v1, v2, v3, v4, v5]
+const  allElements = [...elementList, ...vertexList]
 
 if (canvas) {
     const ctx = canvas.getContext("2d")
 
-    for (let e of elementList) {
+    for (let e of allElements) {
         e.draw(ctx)
     }
-    // elementList.forEach((el, i) => {el.draw(ctx)})
-
-    for (let el of vertexList) {
-        el.draw(ctx)
-    }
-    // vertexList.forEach((el) => {el.draw(ctx)})
 
     canvas.addEventListener('pointermove', (e) => {
-        if (e.pressure > 0.2) {}
+        if (e.pressure > 0.2) {
+            elementList.forEach((el) => {
+                el.checkPosition(e.offsetX, e.offsetY)
+            })
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            allElements.forEach((el) => {
+                el.draw(ctx)
+            })
+        }
     })
 }

@@ -37,7 +37,7 @@ export class Box {
 
     alertVertex() {
         this.vertexList.forEach((v) => {
-            
+            v.updateCoordinate(this)
         })
     }
     
@@ -54,6 +54,8 @@ export class Box {
     updateCoordinate(x, y) {
         this.x = x
         this.y = y
+
+        this.alertVertex()
     }
 
     checkPosition(mousex, mousey) {
@@ -61,7 +63,7 @@ export class Box {
             mousex >= this.x && mousex <= (this.x + this.width) &&
             mousey >= this.y && mousey <= (this.y + this.height)
         ) {
-            this.updateCoordinate(mousex - 50, mousey - 50)
+            this.updateCoordinate(mousex - 40, mousey - 40)
         }
     }
 }

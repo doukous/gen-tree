@@ -46,5 +46,27 @@ export class Point {
         ctx.stroke()
     }
 
-    alertVertex() {}
+    alertVertex() {
+        this.LinkedVertex.forEach((vertex) => {
+            vertex.updateCoordinate(this)
+        })
+    }
+
+    updateCoordinate(x, y) {
+        this.x = x
+        this.y = y
+
+        this.alertVertex()
+    }
+
+    checkPosition(mousex, mousey) {
+        const xDiff = Math.pow((mousex - this.x), 2)
+        const yDiff = Math.pow((mousey - this.y), 2)
+
+        const mousePositionRadius = Math.sqrt(xDiff + yDiff)
+
+        if (mousePositionRadius <= this.radius) {
+            this.updateCoordinate(mousex, mousey)
+        }
+    }
 }
