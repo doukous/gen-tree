@@ -1,25 +1,25 @@
-import { Box } from './Box.js'
+import { Vertex } from './Vertex.js'
 import { Point } from './Point.js'
-import { Vertex} from "./Vertex.js";
+import { Edge} from "./Edge.js";
 
 
 const canvas = document.querySelector('canvas')
 
-const f = new Box(150, 50)
-const m = new Box(350, 50)
+const f = new Vertex(150, 50)
+const m = new Vertex(350, 50)
 
-const s1 = new Box(50, 400)
-const s2 = new Box(250, 400)
-const s3 = new Box(450, 400)
+const s1 = new Vertex(50, 400)
+const s2 = new Vertex(250, 400)
+const s3 = new Vertex(450, 400)
 
 const p = new Point(300, 250)
 
-const v1 = new Vertex(f, p, true)
-const v2 = new Vertex(m, p, true)
+const v1 = new Edge(f, p, true)
+const v2 = new Edge(m, p, true)
 
-const v3 = new Vertex(s1, p)
-const v4 = new Vertex(s2, p)
-const v5 = new Vertex(s3, p)
+const v3 = new Edge(s1, p)
+const v4 = new Edge(s2, p)
+const v5 = new Edge(s3, p)
 
 const elementList = [f, m, p, s1, s2, s3]
 const vertexList = [v1, v2, v3, v4, v5]

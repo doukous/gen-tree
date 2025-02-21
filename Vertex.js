@@ -1,84 +1,69 @@
-/** @import {Coordinate} from "./InteractiveELement.js" */
-
-
 /**
- * The link between boxes and a Point
+ * Represents a family member
+ * 
+ * @implements {InteractiveElement}
  */
 export class Vertex {
     /**
-     * A node linking two boxes
-     * @param {Box} b - the first box
-     * @param {Point} p - the second box
-     * @param {boolean} isp - whether to use parent config
+     * The Vertex constructor
+     * 
+     * @param {number} x - the X coordinate
+     * @param {number} y - the Y coordinate
      */
-    constructor(b, p, isp = false) {
-        this.box = b
-        this.point = p
-        this.isParent = isp
+    constructor(x, y) {
+        this.x = x
+        this.y = y
 
         /**
-         * @type {Coordinate}
+         * @type {Array<Edge>} - The array of vertex linked to box
          */
-        this.firstCoordinate = this.firstDegree()
+        this.vertexList = []
 
-        /**
-         * @type {Coordinate}
-         */
-        this.secondCoordinate = this.secondDegree()
-
-        this.box.registerVertex(this)
-        this.point.registerVertex(this)
+        this.width = 100
+        this.height = 80
     }
 
-    firstDegree() {
-        const x = this.box.vertexX
-
-        const y = this.isParent ?
-                this.box.getVertexY() : this.box.getVertexY(true)
-
-        return {x, y}
+    get EdgeCoordX() {
+        return this.x + (this.width / 2)
     }
 
-    secondDegree() {
-        const x = this.point.vertexX
-
-        const y = this.isParent ?
-                this.point.getVertexY(true) : this.point.getVertexY()
-
-        return {x, y}
+    getEdgeCoordY(onTop = false) {
+        return onTop ? this.y : this.y + this.height
     }
 
-    updateCoordinate(element) {
-        console.log("updateCoordinate", element)
-        if (element === this.box) {
-            this.firstCoordinate = this.firstDegree()
-        }
-
-        else if (element === this.point) {
-            this.secondCoordinate = this.secondDegree()
-        }
+    registerEdge(v) {
+        this.vertexList.push(v)
     }
 
+    alertEdge() {
+        this.vertexList.forEach((v) => {
+            v.updateCoordinate(this)
+        })
+    }
+    
     draw(ctx) {
-        ctx.beginPath()
-        ctx.moveTo(this.firstCoordinate.x, this.firstCoordinate.y)
+        ctx.strokeRect(this.x, this.y, this.width, this.height)    
+    }
+    
+    /**
+     * The function that react to box move
+     * 
+     * @param {number} x - the X coordinate
+     * @param {number} y - the Y coordinate
+     */
+    updateCoordinate(x, y) {
+        this.x = x
+        this.y = y
 
-        if (this.isParent) {
-            ctx.bezierCurveTo(
-                this.firstCoordinate.x, this.firstCoordinate.y + 60,
-                this.secondCoordinate.x, this.secondCoordinate.y - 60,
-                this.secondCoordinate.x, this.secondCoordinate.y
-            )
+        this.alertEdge()
+    }
+
+    checkPosition(mousex, mousey) {
+        if (
+            mousex >= this.x && mousex <= (this.x + this.width) &&
+            mousey >= this.y && mousey <= (this.y + this.height)
+        ) {
+            this.updateCoordinate(mousex - 40, mousey - 40)
         }
-
-        else {
-            ctx.bezierCurveTo(
-                this.firstCoordinate.x, this.firstCoordinate.y - 60,
-                this.secondCoordinate.x, this.secondCoordinate.y + 60,
-                this.secondCoordinate.x, this.secondCoordinate.y
-            )
-        }
-
-        ctx.stroke()
     }
 }

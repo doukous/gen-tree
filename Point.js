@@ -23,15 +23,15 @@ export class Point {
         this.radius = 15
     }
 
-    get vertexX() {
+    get EdgeCoordX() {
         return this.x
     }
 
-    getVertexY(onTop = false) {
+    getEdgeCoordY(onTop = false) {
         return onTop ? (this.y - this.radius) : (this.y + this.radius)
     }
 
-    registerVertex(v) {
+    registerEdge(v) {
         this.LinkedVertex.push(v)
     }
 
@@ -46,7 +46,7 @@ export class Point {
         ctx.stroke()
     }
 
-    alertVertex() {
+    alertEdge() {
         this.LinkedVertex.forEach((vertex) => {
             vertex.updateCoordinate(this)
         })
@@ -56,7 +56,7 @@ export class Point {
         this.x = x
         this.y = y
 
-        this.alertVertex()
+        this.alertEdge()
     }
 
     checkPosition(mousex, mousey) {

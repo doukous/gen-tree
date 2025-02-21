@@ -45,7 +45,7 @@ export class InteractiveElement {
      *
      * @returns {number}
      */
-    get vertexX() {}
+    get EdgeCoordX() {}
 
     /**
      * return the vertex coordinate on y-axis
@@ -55,7 +55,7 @@ export class InteractiveElement {
      *
      * @returns {number}
      */
-    getVertexY(onTop=false) {}
+    getEdgeCoordY(onTop=false) {}
 
     /**
      *  add a vertex to an element list of vertex
@@ -64,12 +64,12 @@ export class InteractiveElement {
      *
      * @returns {void}
      */
-    registerVertex(v) {}
+    registerEdge(v) {}
 
     /**
      *  alert all vertex registered
      *
      *  @returns {void}
      */
-    alertVertex() {}
+    alertEdge() {}
 }
