@@ -1,18 +1,16 @@
-/** @import {Coordinate} from "./InteractiveELement.js" */
-
-
 /**
+ *
  * The link between boxes and a Point
  */
 export class Edge {
     /**
      * A node linking two boxes
-     * @param {Box} b - the first box
+     * @param {Vertex} v - the first box
      * @param {Point} p - the second box
      * @param {boolean} isp - whether to use parent config
      */
-    constructor(b, p, isp = false) {
-        this.box = b
+    constructor(v, p, isp = false) {
+        this.vertex = v
         this.point = p
         this.isParent = isp
 
@@ -26,15 +24,15 @@ export class Edge {
          */
         this.secondCoordinate = this.secondDegree()
 
-        this.box.registerEdge(this)
+        this.vertex.registerEdge(this)
         this.point.registerEdge(this)
     }
 
     firstDegree() {
-        const x = this.box.EdgeCoordX
+        const x = this.vertex.EdgeCoordX
 
         const y = this.isParent ?
-                this.box.getEdgeCoordY() : this.box.getEdgeCoordY(true)
+                this.vertex.getEdgeCoordY() : this.vertex.getEdgeCoordY(true)
 
         return {x, y}
     }
@@ -49,8 +47,7 @@ export class Edge {
     }
 
     updateCoordinate(element) {
-        console.log("updateCoordinate", element)
-        if (element === this.box) {
+        if (element === this.vertex) {
             this.firstCoordinate = this.firstDegree()
         }
 

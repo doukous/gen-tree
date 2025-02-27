@@ -22,8 +22,8 @@ const v4 = new Edge(s2, p)
 const v5 = new Edge(s3, p)
 
 const elementList = [f, m, p, s1, s2, s3]
-const vertexList = [v1, v2, v3, v4, v5]
-const  allElements = [...elementList, ...vertexList]
+const edges = [v1, v2, v3, v4, v5]
+const  allElements = [...elementList, ...edges]
 
 if (canvas) {
     const ctx = canvas.getContext("2d")
@@ -34,15 +34,17 @@ if (canvas) {
 
     canvas.addEventListener('pointermove', (e) => {
         if (e.pressure > 0.2) {
-            elementList.forEach((el) => {
-                el.checkPosition(e.offsetX, e.offsetY)
-            })
+            Vertex.checkPosition(e.offsetX, e.offsetY)
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.reset()
 
             allElements.forEach((el) => {
                 el.draw(ctx)
             })
         }
+    })
+
+    canvas.addEventListener('pointerup', () => {
+        Vertex.handleRelease()
     })
 }
