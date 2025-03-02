@@ -1,11 +1,10 @@
+import {GraphicalElement} from "./GraphicalElement.js"
+import {GenealogicalTree} from "./GenealogicalTree.js"
+
 /**
- * @import {InteractiveElement} from "./InteractiveELement.js"
- *
- * @implements{InteractiveElement}
- *
  * Represents a family member
  */
-export class Vertex {
+export class Vertex extends GraphicalElement {
     /**
      * @type {Array<Vertex>} - the list of vertices
      *                         triggered by checkPosition function
@@ -19,12 +18,13 @@ export class Vertex {
      * @param {number} y - the Y coordinate
      */
     constructor(x, y) {
+        super()
         this.x = x
         this.y = y
         this.z = 0
 
         /**
-         * @type {Array<Edge>} - The array of vertex linked to box
+         * @type {Array<Edge>} - The array of vertexConfig linked to box
          */
         this.edgesList = []
 
@@ -39,6 +39,8 @@ export class Vertex {
      */
     static draggedVertex = null
 
+    static firedVertices = []
+
     get EdgeCoordX() {
         return this.x + (this.width / 2)
     }
@@ -47,8 +49,8 @@ export class Vertex {
         return onTop ? this.y : this.y + this.height
     }
 
-    registerEdge(v) {
-        this.edgesList.push(v)
+    registerEdge(e) {
+        this.edgesList.push(e)
     }
 
     alertEdge() {
@@ -58,7 +60,7 @@ export class Vertex {
     }
     
     draw(ctx) {
-        ctx.strokeRect(this.x, this.y, this.width, this.height)    
+        ctx.strokeRect(this.x, this.y, this.width, this.height)
     }
     
     /**
@@ -71,20 +73,14 @@ export class Vertex {
         Vertex.draggedVertex.x = x
         Vertex.draggedVertex.y = y
 
-
         Vertex.draggedVertex.alertEdge()
+        GenealogicalTree.draw()
     }
 
     static handleRelease() {
         Vertex.firedVertices = []
         Vertex.draggedVertex = null
     }
-
-    set setZValue(value) {
-        this.z = value
-    }
-
-    static firedVertices = []
 
     static checkPosition(mouseX, mouseY) {
         for (let el of Vertex.vertices) {
@@ -145,6 +141,8 @@ export class Vertex {
             }
         }
 
-        Vertex.updateCoordinate(mouseX - 40, mouseY - 40)
+        if (this.firedVertices.length !== 0) {
+            Vertex.updateCoordinate(mouseX - 40, mouseY - 40)
+        }
     }
 }

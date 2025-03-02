@@ -1,50 +1,11 @@
-import { Vertex } from './Vertex.js'
-import { Point } from './Point.js'
-import { Edge} from "./Edge.js";
+import {data} from "./data.js"
+import FamilyTree from "./FamilyTree.js"
+import {GenealogicalTree} from "./GenealogicalTree.js";
 
 
 const canvas = document.querySelector('canvas')
 
-const f = new Vertex(150, 50)
-const m = new Vertex(350, 50)
+const a = new GenealogicalTree(canvas)
+const familyTree = new FamilyTree(data)
 
-const s1 = new Vertex(50, 400)
-const s2 = new Vertex(250, 400)
-const s3 = new Vertex(450, 400)
-
-const p = new Point(300, 250)
-
-const v1 = new Edge(f, p, true)
-const v2 = new Edge(m, p, true)
-
-const v3 = new Edge(s1, p)
-const v4 = new Edge(s2, p)
-const v5 = new Edge(s3, p)
-
-const elementList = [f, m, p, s1, s2, s3]
-const edges = [v1, v2, v3, v4, v5]
-const  allElements = [...elementList, ...edges]
-
-if (canvas) {
-    const ctx = canvas.getContext("2d")
-
-    for (let e of allElements) {
-        e.draw(ctx)
-    }
-
-    canvas.addEventListener('pointermove', (e) => {
-        if (e.pressure > 0.2) {
-            Vertex.checkPosition(e.offsetX, e.offsetY)
-
-            ctx.reset()
-
-            allElements.forEach((el) => {
-                el.draw(ctx)
-            })
-        }
-    })
-
-    canvas.addEventListener('pointerup', () => {
-        Vertex.handleRelease()
-    })
-}
+GenealogicalTree.draw()

@@ -14,5 +14,6 @@
  *
  * @property {string} firstname
  * @property {string} lastname
- * @property {Coordinate} pos
+ * @property {Coordinate} position
+ * @property {"parent" | "child"} role
  */

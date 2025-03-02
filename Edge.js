@@ -1,8 +1,9 @@
+import {GraphicalElement} from "./GraphicalElement.js";
+
 /**
- *
  * The link between boxes and a Point
  */
-export class Edge {
+export class Edge extends GraphicalElement {
     /**
      * A node linking two boxes
      * @param {Vertex} v - the first box
@@ -10,6 +11,7 @@ export class Edge {
      * @param {boolean} isp - whether to use parent config
      */
     constructor(v, p, isp = false) {
+        super()
         this.vertex = v
         this.point = p
         this.isParent = isp

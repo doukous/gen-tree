@@ -1,10 +1,9 @@
+import {GraphicalElement} from "./GraphicalElement.js";
+
 /**
  * The point that link parents and children
- *
- * @import {Person, InteractiveElement} from "./InteractiveELement.js"
- *
  */
-export class Point {
+export class Point extends GraphicalElement {
     /**
      * Constructor for a family point
      * 
@@ -12,15 +11,17 @@ export class Point {
      * @param {number} y - the Y coordinate
      */
     constructor(x, y) {
+        super()
+
         /**
-         * @type {Array<Vertex>} - a list of vertex linked to the point
+         * @type {Array<Vertex>} - a list of vertexConfig linked to the point
          */
         this.LinkedVertex = []
 
         this.x = x
         this.y = y
 
-        this.radius = 15
+        this.radius = 10
     }
 
     get EdgeCoordX() {
