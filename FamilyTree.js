@@ -1,5 +1,5 @@
 import TreeBuilder from './TreeBuilder.js'
-import {GenealogicalTree} from "./GenealogicalTree.js";
+import {GenealogicalTree} from "./GenealogicalTree.js"
 
 export default class FamilyTree {
     constructor(data) {

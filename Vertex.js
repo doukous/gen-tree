@@ -1,6 +1,7 @@
 import {GraphicalElement} from "./GraphicalElement.js"
 import {GenealogicalTree} from "./GenealogicalTree.js"
 
+
 /**
  * Represents a family member
  */
@@ -16,8 +17,11 @@ export class Vertex extends GraphicalElement {
      * 
      * @param {number} x - the X coordinate
      * @param {number} y - the Y coordinate
+     * @param {number} width - the width
+     * @param {number} height - the height
+     *
      */
-    constructor(x, y) {
+    constructor(x, y, width = 100, height = 80) {
         super()
         this.x = x
         this.y = y
@@ -28,8 +32,8 @@ export class Vertex extends GraphicalElement {
          */
         this.edgesList = []
 
-        this.width = 100
-        this.height = 80
+        this.width = width
+        this.height = height
 
         Vertex.vertices.push(this)
     }

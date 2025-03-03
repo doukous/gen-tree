@@ -1,4 +1,4 @@
-import {GraphicalElement} from "./GraphicalElement.js";
+import {GraphicalElement} from "./GraphicalElement.js"
 
 /**
  * The point that link parents and children

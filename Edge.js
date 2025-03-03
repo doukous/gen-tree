@@ -1,4 +1,4 @@
-import {GraphicalElement} from "./GraphicalElement.js";
+import {GraphicalElement} from "./GraphicalElement.js"
 
 /**
  * The link between boxes and a Point

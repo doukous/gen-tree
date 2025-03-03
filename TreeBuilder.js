@@ -91,7 +91,6 @@ export default class TreeBuilder {
         )
 
         this.createEdges()
-
         this.treeElements['edges'].push(...this.edgesObj)
 
         return this.treeElements
@@ -103,7 +102,6 @@ export default class TreeBuilder {
             this.canvas.height / 2
         )
     }
-
 
     createParents() {
         this.father = this.parents.find(el => el.role === 'father')

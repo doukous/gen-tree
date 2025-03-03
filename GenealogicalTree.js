@@ -1,4 +1,4 @@
-import {Vertex} from "./Vertex.js";
+import {Vertex} from "./Vertex.js"
 
 export class GenealogicalTree {
     static existingTree = null
