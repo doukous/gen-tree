@@ -18,17 +18,21 @@ export class Point extends GraphicalElement {
          */
         this.LinkedVertex = []
 
-        this.x = x
-        this.y = y
+        this._x = x
+        this._y = y
 
         this.radius = 10
     }
 
-    get EdgeCoordX() {
-        return this.x
+    get x() {
+        return this._x
     }
 
-    getEdgeCoordY(onTop = false) {
+    get y() {
+        return this._y
+    }
+
+    getY(onTop = false) {
         return onTop ? (this.y - this.radius) : (this.y + this.radius)
     }
 

@@ -1,6 +1,5 @@
 import {GraphicalElement} from "./GraphicalElement.js"
-import {GenealogicalTree} from "./GenealogicalTree.js"
-
+import GenealogicalTree from "./GenealogicalTree.js";
 
 /**
  * Represents a family member
@@ -45,11 +44,11 @@ export class Vertex extends GraphicalElement {
 
     static firedVertices = []
 
-    get EdgeCoordX() {
+    get EdgeX() {
         return this.x + (this.width / 2)
     }
 
-    getEdgeCoordY(onTop = false) {
+    getEdgeY(onTop = false) {
         return onTop ? this.y : this.y + this.height
     }
 
@@ -62,7 +61,7 @@ export class Vertex extends GraphicalElement {
             v.updateCoordinate(this)
         })
     }
-    
+
     draw(ctx) {
         ctx.strokeRect(this.x, this.y, this.width, this.height)
     }
@@ -78,6 +77,7 @@ export class Vertex extends GraphicalElement {
         Vertex.draggedVertex.y = y
 
         Vertex.draggedVertex.alertEdge()
+
         GenealogicalTree.draw()
     }
 
@@ -89,8 +89,10 @@ export class Vertex extends GraphicalElement {
     static checkPosition(mouseX, mouseY) {
         for (let el of Vertex.vertices) {
             if (
-                mouseX >= el.x && mouseX <= (el.x + el.width) &&
-                mouseY >= el.y && mouseY <= (el.y + el.height)
+                mouseX >= el.x && mouseX <= el.x + el.width
+                &&
+                mouseY >= el.y && mouseY <= (el.y + el.height
+                )
             ) {
                 if (!Vertex.firedVertices.includes(el)) {
                     Vertex.firedVertices.push(el)
@@ -105,7 +107,12 @@ export class Vertex extends GraphicalElement {
             }
         }
 
-        if (Vertex.firedVertices.length === 1) {
+        if (Vertex.firedVertices.length === 0) {
+            GenealogicalTree.isPanMode = true
+            return
+        }
+
+        else if (Vertex.firedVertices.length === 1) {
             Vertex.draggedVertex = Vertex.firedVertices[0]
             Vertex.draggedVertex.z = 0
         }

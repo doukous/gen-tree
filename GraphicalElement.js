@@ -1,4 +1,5 @@
 export class GraphicalElement {
+
     /**
      * The method to implement for drawing
      *

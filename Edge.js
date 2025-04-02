@@ -31,19 +31,19 @@ export class Edge extends GraphicalElement {
     }
 
     firstDegree() {
-        const x = this.vertex.EdgeCoordX
+        const x = this.vertex.EdgeX
 
         const y = this.isParent ?
-                this.vertex.getEdgeCoordY() : this.vertex.getEdgeCoordY(true)
+                this.vertex.getEdgeY() : this.vertex.getEdgeY(true)
 
         return {x, y}
     }
 
     secondDegree() {
-        const x = this.point.EdgeCoordX
+        const x = this.point.x
 
         const y = this.isParent ?
-                this.point.getEdgeCoordY(true) : this.point.getEdgeCoordY()
+                this.point.getY(true) : this.point.getY()
 
         return {x, y}
     }
@@ -59,6 +59,8 @@ export class Edge extends GraphicalElement {
     }
 
     draw(ctx) {
+        super.draw(ctx)
+
         ctx.beginPath()
         ctx.moveTo(this.firstCoordinate.x, this.firstCoordinate.y)
 

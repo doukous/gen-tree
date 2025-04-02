@@ -45,7 +45,6 @@ function generatePattern(n) {
 
 export default class TreeBuilder {
     /**
-     *
      * @param {serverResponse} data
      */
     constructor(data) {

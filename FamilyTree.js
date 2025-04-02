@@ -1,5 +1,5 @@
 import TreeBuilder from './TreeBuilder.js'
-import {GenealogicalTree} from "./GenealogicalTree.js"
+import GenealogicalTree from "./GenealogicalTree.js"
 
 export default class FamilyTree {
     constructor(data) {
@@ -25,12 +25,17 @@ export default class FamilyTree {
     }
 
     draw(context) {
+        /**
+         * @type {GraphicalElement[]}
+         */
         const elements = [
             this.elements.anchor,
             ...this.elements.vertices,
             ...this.elements.edges
         ]
 
-        elements.forEach(element => {element.draw(context)})
+        elements.forEach(element => {
+            element.draw(context)
+        })
     }
 }
