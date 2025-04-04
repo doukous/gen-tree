@@ -1,5 +1,5 @@
 export default class GenealogicalTree {
-    static scale = 1
+    static scale = 0.8
     static existingTree = null
     /**
      * @type {FamilyTree[]}
@@ -31,14 +31,16 @@ export default class GenealogicalTree {
     }
 
     static zoomIn() {
-        GenealogicalTree.scale += 0.1
-        GenealogicalTree.context.reset()
-        GenealogicalTree.draw()
+        if (GenealogicalTree.scale < 1.2) {
+            GenealogicalTree.scale += 0.05
+            GenealogicalTree.context.reset()
+            GenealogicalTree.draw()
+        }
     }
 
     static zoomOut() {
-        if (GenealogicalTree.scale > 0.4) {
-            GenealogicalTree.scale -= 0.1
+        if (GenealogicalTree.scale > 0.5) {
+            GenealogicalTree.scale -= 0.05
             GenealogicalTree.context.reset()
             GenealogicalTree.draw()
         }

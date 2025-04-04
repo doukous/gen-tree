@@ -16,15 +16,17 @@ export class Vertex extends GraphicalElement {
      * 
      * @param {number} x - the X coordinate
      * @param {number} y - the Y coordinate
+     * @param {string} firstname - the firstname
      * @param {number} width - the width
      * @param {number} height - the height
      *
      */
-    constructor(x, y, width = 100, height = 80) {
+    constructor(x, y, width = 100, height = 80, firstname = "") {
         super()
         this.x = x
         this.y = y
         this.z = 0
+        this.firstname = "firstname"
 
         /**
          * @type {Array<Edge>} - The array of vertexConfig linked to box
@@ -63,7 +65,15 @@ export class Vertex extends GraphicalElement {
     }
 
     draw(ctx) {
-        ctx.strokeRect(this.x, this.y, this.width, this.height)
+        ctx.roundRect(this.x, this.y, this.width, this.height, 10)
+        ctx.stroke()
+
+        ctx.save()
+        ctx.font = "17px serif"
+        ctx.textAlign = "center"
+        ctx.textBaseline = "middle"
+        ctx.fillText(this.firstname, (this.x + this.width / 2), (this.y + this.height / 2))
+        ctx.restore()
     }
     
     /**
@@ -77,7 +87,6 @@ export class Vertex extends GraphicalElement {
         Vertex.draggedVertex.y = y
 
         Vertex.draggedVertex.alertEdge()
-
         GenealogicalTree.draw()
     }
 
