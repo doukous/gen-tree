@@ -21,12 +21,12 @@ export class Vertex extends GraphicalElement {
      * @param {number} height - the height
      *
      */
-    constructor(x, y, width = 100, height = 80, firstname = "") {
+    constructor(x, y, firstname = "", width = 100, height = 80) {
         super()
         this.x = x
         this.y = y
         this.z = 0
-        this.firstname = "firstname"
+        this.firstname = firstname
 
         /**
          * @type {Array<Edge>} - The array of vertexConfig linked to box

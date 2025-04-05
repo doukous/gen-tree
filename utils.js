@@ -13,7 +13,30 @@
  * @typedef {Object} Person
  *
  * @property {string} firstname
- * @property {string} lastname
- * @property {Coordinate} position
+ * @property {Coordinate | null} coordinate
  * @property {"parent" | "child"} role
+ */
+
+/**
+ * @typedef {object} payload
+ *
+ * @property {Array<Person>} parents
+ * @property {Array<Person>} children
+ */
+
+/**
+ * @typedef {object} familyData
+ *
+ * @property {number} id
+ * @property {"family"} type
+ * @property {object} payload
+ */
+
+/**
+ * @typedef {object} personData
+ *
+ * @property {number} id
+ * @property {"person"} type
+ * @property {string} lastname
+ * @property {object} payload
  */
