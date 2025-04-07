@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genealogical Tree</title>
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <script type="module" src= "{% static 'script/main.js' %}" defer></script>
+</head>
+<body>
+    <div class="main">
+        <div class="canvas-section">
+            <div class="gen-tree-btn">
+                <button class="new-member-btn">ajouter un membre</button>
+                <button class="new-family-btn">ajouter une famille</button>
+            </div>
+            <canvas width="800" height="800"></canvas>
+            <div class="controls">
+                <button id="b-plus">plus</button>
+                <button id="b-minus">moins</button>
+            </div> 
+        </div>
+        <div class="profile">
+            <div id="profile-header">
+                <h1>Informations</h1>
+                <button>fermer</button>
+            </div>
+            <div class="info-container">
+                <div class="info-section">
+                    <div class="info-el">
+                        <h3>Prénom :</h3>
+                        <span>person-firstname</span>    
+                    </div>
+    
+                    <div class="info-el">
+                        <h3>Nom :</h3>
+                        <span>person-lastname</span>    
+                    </div>    
+                </div>
+                <hr>
+                <div class="info-section">
+                    <div class="info-el">
+                        <h3>Age :</h3>
+                        <span>40</span>
+                    </div>
+                    <div class="info-el">
+                        <h3>Date d'anniversaire :</h3>
+                        <span>15 juin</span>
+                    </div>
+                </div>
+                <hr>
+                <div class="info-section">
+                    <div class="info-el">
+                        <h3>Instagram :</h3>
+                        <a href="#">lien instagram</a>                      
+                    </div>
+                    <div class="info-el">
+                        <h3>Facebook :</h3>
+                        <a href="#">lien facebook</a>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <hr>
+        </div>    
+    </div>
+</body>
+</html>

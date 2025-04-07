@@ -6,13 +6,13 @@ export const familyDataSample = {
     "payload": {
         "parents" : [
             {
-                "firstname" : "el hadj",
+                "firstname" : "father",
                 "coordinate" : null,
                 "role" : "father"
             },
 
             {
-                "firstname" : "khady",
+                "firstname" : "mother",
                 "coordinate" : null,
                 "role" : "mother"
             }
@@ -20,19 +20,19 @@ export const familyDataSample = {
 
         "children" : [
             {
-                "firstname" : "aida",
+                "firstname" : "child 1",
                 "coordinate" : null,
                 "role" : "child"
             },
 
             {
-                "firstname" : "mareme",
+                "firstname" : "child 2",
                 "coordinate" : null,
                 "role" : "child"
             },
 
             {
-                "firstname" : "mohamed",
+                "firstname" : "child 3",
                 "coordinate" : null,
                 "role" : "child"
             }
