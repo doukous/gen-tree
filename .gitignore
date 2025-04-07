@@ -2,6 +2,7 @@
 __pycache__
 .venv
 .env
-db.sqlite3
+.vscode
+src/db.sqlite3
 uv.lock
-
+docker-compose.yml
