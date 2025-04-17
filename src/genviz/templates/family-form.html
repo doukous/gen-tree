@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New family</title>
+</head>
+<body>
+    <form action={% url "register-family" %} method="GET">
+        
+      {{ family_form.family_name.as_field_group }}
+
+      <fieldset>
+        <legend>père</legend>
+            {{ family_form.first_partner_choice.as_field_group }}
+            {{ family_form.new_first_partner.firstname.as_field_group }}
+            {{ family_form.new_first_partner.birth_date.as_field_group }}
+      </fieldset>
+
+        <fieldset>
+            <legend>mère</legend>
+            {{ family_form.second_partner_choice.as_field_group }}
+            {{ family_form.new_second_partner.firstname.as_field_group }}
+            {{ family_form.new_second_partner.birth_date.as_field_group }}
+        </fieldset>
+
+        <div class="children">
+            {{ family_form.children.management_form }}            
+            
+                <fieldset>
+                    <legend>enfants</legend>
+                        {{ family_form.children_choices.as_field_group }}
+                        <hr />
+                        {% for child in family_form.children %}
+                            {{ child }}   
+                        {% endfor %}         
+                </fieldset>
+        </div>
+        
+
+        <button type="submit">ajouter</button>
+    </form>
+</body>
+</html>

@@ -9,19 +9,21 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
 from pathlib import Path
-import os
+import environ
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env()
+environ.Env.read_env((BASE_DIR.parent / '.env').as_posix())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%07yjzx5#6o2^uj4#n%*v=ark91y0%js1w0vgbzz9%3@6&c=!r'
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -59,7 +61,7 @@ ROOT_URLCONF = 'gentree.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "gentree/genviz/templates"],
+        'DIRS': [BASE_DIR / "genviz/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,7 +79,7 @@ WSGI_APPLICATION = 'gentree.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-NEOMODEL_NEO4J_BOLT_URL = "bolt://neo4j:password@localhost:7687"
+NEOMODEL_NEO4J_BOLT_URL = env('DATABASE_URI')
 
 DATABASES = {
     'default': {
@@ -123,7 +125,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "gentree/genviz/static",
+    BASE_DIR / "genviz/static",
 ]
 
 # Default primary key field type

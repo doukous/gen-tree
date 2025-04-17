@@ -13,8 +13,7 @@
     <div class="main">
         <div class="canvas-section">
             <div class="gen-tree-btn">
-                <button class="new-member-btn">ajouter un membre</button>
-                <button class="new-family-btn">ajouter une famille</button>
+                <a href="{% url "new-family" %}">ajouter une famille</a>
             </div>
             <canvas width="800" height="800"></canvas>
             <div class="controls">
@@ -22,49 +21,6 @@
                 <button id="b-minus">moins</button>
             </div> 
         </div>
-        <div class="profile">
-            <div id="profile-header">
-                <h1>Informations</h1>
-                <button>fermer</button>
-            </div>
-            <div class="info-container">
-                <div class="info-section">
-                    <div class="info-el">
-                        <h3>Prénom :</h3>
-                        <span>person-firstname</span>    
-                    </div>
-    
-                    <div class="info-el">
-                        <h3>Nom :</h3>
-                        <span>person-lastname</span>    
-                    </div>    
-                </div>
-                <hr>
-                <div class="info-section">
-                    <div class="info-el">
-                        <h3>Age :</h3>
-                        <span>40</span>
-                    </div>
-                    <div class="info-el">
-                        <h3>Date d'anniversaire :</h3>
-                        <span>15 juin</span>
-                    </div>
-                </div>
-                <hr>
-                <div class="info-section">
-                    <div class="info-el">
-                        <h3>Instagram :</h3>
-                        <a href="#">lien instagram</a>                      
-                    </div>
-                    <div class="info-el">
-                        <h3>Facebook :</h3>
-                        <a href="#">lien facebook</a>
-                    </div>
-                </div>
-                <hr>
-            </div>
-            <hr>
-        </div>    
     </div>
 </body>
 </html>
