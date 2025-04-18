@@ -3,7 +3,7 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('families', views.new_family, name='new-family'),
-    path('register-family', views.register_family, name='register-family'),
+    path('', views.HoweView.as_view(), name='home'),
+    path('families', views.CreateFamilyView.as_view(), name='new-family'),
+    path('registration-completed', views.RegistrationCompleteView.as_view(), name='register-family'),
 ]

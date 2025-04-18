@@ -8,16 +8,15 @@
     <title>New family</title>
 </head>
 <body>
-    <form action={% url "register-family" %} method="GET">
-        
-      {{ family_form.family_name.as_field_group }}
-
-      <fieldset>
+    <form action={% url "new-family" %} method="POST">
+        {% csrf_token %}
+        {{ family_form.family_name.as_field_group }}
+    <fieldset>
         <legend>père</legend>
             {{ family_form.first_partner_choice.as_field_group }}
             {{ family_form.new_first_partner.firstname.as_field_group }}
             {{ family_form.new_first_partner.birth_date.as_field_group }}
-      </fieldset>
+    </fieldset>
 
         <fieldset>
             <legend>mère</legend>

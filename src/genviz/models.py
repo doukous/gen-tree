@@ -13,22 +13,23 @@ class Person(StructuredNode):
     firstname = StringProperty(required=True)
     birth_date = DateProperty()
     sex = StringProperty(choices=sex_choices, required=True)
-    family = RelationshipTo('Person', 'IS_MEMBER_OF', model=FamilyRel)
 
-    @property
-    def lastname(self):
-       if self.family.all():
-        return self.family.all()[0].get('name')
-       else : return ""
-
+    
     def find_family(self):
         try:
-            results, meta = self.cypher(f"MATCH (f:FamilyTree) WHERE (p:Person {{uid:'{self.uid}'}})-[:IS_MEMBER_OF]->(f) RETURN f")
-            return results[0][0]
+            results, columns = self.cypher(
+                f"""
+                MATCH (f:FamilyTree) \
+                WHERE (p:Person {{uid:'{self.uid}'}})-[:IS_MEMBER_OF]->(f) \
+                RETURN f
+                """
+            )
+
+            return [self.inflate(row[0]) for row in results]
         
         except Exception as e:
-            return None
-
+            return e
+    
 
 class FamilyTree(StructuredNode):
     uid = UniqueIdProperty()
