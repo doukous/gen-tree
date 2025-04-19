@@ -1,3 +1,4 @@
+from datetime import date
 from django import forms
 
 
@@ -19,11 +20,19 @@ class PersonForm(forms.Form):
     firstname = forms.CharField()
     birth_date = forms.DateField(
         widget=forms.DateInput(attrs={
-           'type': 'date' 
+           'type': 'date',
         }),
         required=False
-    )    
+    )
 
+    def clean_birth_date(self):
+        cleaned_data = super().clean()
+        cleaned_date = cleaned_data.get('birth_date')
+        
+        if cleaned_date and cleaned_date > date.today():
+            raise forms.ValidationError('the date is in the future...')
+
+        return cleaned_date
 
 class ChildForm(PersonForm):
     SEX_CHOICES = {
@@ -31,7 +40,7 @@ class ChildForm(PersonForm):
         ('male', 'Homme'),
         ('female', 'Femme')
     }
-
+    
     sex = forms.ChoiceField(choices=SEX_CHOICES, initial='male', required=False)
     role = 'child'
 
@@ -39,6 +48,13 @@ ChildFormSet = forms.formset_factory(ChildForm, extra=0)
 
 
 class FamilyForm(forms.Form):
+    def __init__(self, data=None, *args, **kwargs):
+        super().__init__(data, *args, **kwargs)
+
+        self.new_first_partner = PersonForm(data=data, prefix='first_partner')
+        self.new_second_partner = PersonForm(data=data, prefix='second_partner')
+        self.children = ChildFormSet(data, prefix='children')
+
     family_name = forms.CharField(initial='family name')
 
     first_partner_choice = forms.ChoiceField(
@@ -60,45 +76,11 @@ class FamilyForm(forms.Form):
         initial=[""]
     )
 
-    new_first_partner = PersonForm(initial={
-        'firstname': 'first partner',
-    }, prefix='first_partner')
+    def is_valid(self):
+        valid = super().is_valid()
 
-    new_second_partner = PersonForm(initial={
-        'firstname': 'second partner',
-    }, prefix='second_partner')
+        partners_valid = self.new_first_partner.is_valid() and self.new_second_partner.is_valid()
+        children_valid = self.children.is_valid()
 
-    children = ChildFormSet(initial=[{
-        'firstname': 'child name',
-    }], prefix='child')
-
-
-    def clean(self):
-        remaining_data = self.data.copy()
-
-        # it contains only the non-nested fields
-        family_data = super().clean().copy()
-
-        for family_key in list(self.cleaned_data.keys()):
-            del remaining_data[family_key]
-
-        new_first_partner = PersonForm(prefix='first_partner', data=remaining_data)
-        new_second_partner = PersonForm(prefix='second_partner', data=remaining_data)
-        
-        new_first_partner.is_valid()
-        new_second_partner.is_valid()
-
-        for prefix in [new_first_partner.prefix, new_second_partner.prefix]:
-            for partner_key in new_first_partner.fields:
-                key = f"{prefix}-{partner_key}"
-                del remaining_data[key]
-        
-        family_data['new_first_partner'] = new_first_partner.cleaned_data
-        family_data['new_second_partner'] = new_second_partner.cleaned_data
-
-        children = ChildFormSet(prefix='child', data=remaining_data)
-        children.is_valid()
-
-        family_data['children'] = children.cleaned_data
-
-        return family_data
+        return valid and partners_valid and children_valid
+    

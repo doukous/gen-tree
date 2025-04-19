@@ -10,15 +10,10 @@ class HoweView(TemplateView):
 
 
 class CreateFamilyView(FormView):
-    template_name = "family-form.html"
     form_class = FamilyForm
+    template_name = "family-form.html"
     success_url = "/registration-completed"
 
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['family_form'] = context.pop('form')
-        return context
 
 class RegistrationCompleteView(View):
     def get(self, request):
