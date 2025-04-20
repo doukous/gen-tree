@@ -32,13 +32,13 @@
             {{ form.new_second_partner.birth_date.as_field_group }}
         </fieldset>
 
-        <div class="children">
-            {{ form.children.management_form }}            
-            
+        <div class="children">            
                 <fieldset>
                     <legend>children</legend>
                         {{ form.children_choices.as_field_group }}
                         <hr />
+                        {{ form.children.management_form }}
+                        
                         {% for child in form.children %}
                             {{ child }}   
                         {% endfor %}         
