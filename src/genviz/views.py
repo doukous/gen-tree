@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -17,4 +17,4 @@ class CreateFamilyView(FormView):
 
 class RegistrationCompleteView(View):
     def get(self, request):
-        return HttpResponse('successfullly registered, <a href="/">go back home</a>')
+        return redirect('home')

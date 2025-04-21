@@ -1,5 +1,5 @@
-import {GraphicalElement} from "./GraphicalElement.js"
-import GenealogicalTree from "./GenealogicalTree.js";
+import {GraphicalElement} from "../../GraphicalElement.js"
+import GenealogicalTree from "../trees/GenealogicalTree.js";
 
 /**
  * Represents a family member
