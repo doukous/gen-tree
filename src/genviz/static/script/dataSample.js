@@ -8,13 +8,11 @@ export const familyDataSample = {
             {
                 "firstname" : "father",
                 "coordinate" : null,
-                "role" : "father"
             },
 
             {
                 "firstname" : "mother",
                 "coordinate" : null,
-                "role" : "mother"
             }
         ],
 
@@ -22,19 +20,16 @@ export const familyDataSample = {
             {
                 "firstname" : "child 1",
                 "coordinate" : null,
-                "role" : "child"
             },
 
             {
                 "firstname" : "child 2",
                 "coordinate" : null,
-                "role" : "child"
             },
 
             {
                 "firstname" : "child 3",
                 "coordinate" : null,
-                "role" : "child"
             }
         ]
     }
@@ -48,6 +43,5 @@ export const personDataSample = {
     "payload" : {
         "firstname" : "mohamed",
         "coordinate" : null,
-        "role" : "child"
     }
 }

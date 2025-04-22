@@ -19,17 +19,17 @@
         {% csrf_token %}
         {{ form.family_name.as_field_group }}
     <fieldset>
-        <legend>father</legend>
-            {{ form.first_partner_choice.as_field_group }}
-            {{ form.new_first_partner.firstname.as_field_group }}
-            {{ form.new_first_partner.birth_date.as_field_group }}
+        <legend>male partner</legend>
+            {{ form.male_partner_choice.as_field_group }}
+            {{ form.new_male_partner.firstname.as_field_group }}
+            {{ form.new_male_partner.birth_date.as_field_group }}
     </fieldset>
 
         <fieldset>
-            <legend>mother</legend>
-            {{ form.second_partner_choice.as_field_group }}
-            {{ form.new_second_partner.firstname.as_field_group }}
-            {{ form.new_second_partner.birth_date.as_field_group }}
+            <legend>female partner</legend>
+            {{ form.female_partner_choice.as_field_group }}
+            {{ form.new_female_partner.firstname.as_field_group }}
+            {{ form.new_female_partner.birth_date.as_field_group }}
         </fieldset>
 
         <div class="children">            
@@ -45,7 +45,6 @@
                 </fieldset>
         </div>
         
-
         <button type="submit">ajouter</button>
     </form>
 </body>
