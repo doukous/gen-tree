@@ -1,17 +1,20 @@
+from pprint import pprint
 from rest_framework import serializers
 
 
-class MemberSerializer(serializers.Serializer):
+class PersonSerializer(serializers.Serializer):
+    uid = serializers.UUIDField(format='hex_verbose')
     firstname = serializers.CharField()
+    sex = serializers.CharField()
 
 
-class PayloadSerializer(serializers.Serializer):
-    parents = MemberSerializer(many=True)
-    children = MemberSerializer(many=True)
+class MembersSerializer(serializers.Serializer):
+    parents = PersonSerializer(many=True)
+    children = PersonSerializer(many=True)
 
 
 class FamilySerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    type = serializers.ChoiceField(choices=['family', 'person'])
+    uid = serializers.UUIDField(format='hex_verbose')
     name = serializers.CharField()
-    payload = PayloadSerializer()
+    payload = MembersSerializer()
+    

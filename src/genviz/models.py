@@ -43,3 +43,10 @@ class FamilyTree(StructuredNode):
     @property
     def children(self):
         return self.members.match(status='child').all()
+    
+    @property
+    def payload(self):
+        return {
+            'parents' : self.parents,
+            'children' : self.children
+        }
