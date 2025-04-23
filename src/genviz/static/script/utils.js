@@ -5,38 +5,29 @@
  *
  * @property {number | null} x
  * @property {number | null} y
- */
+*/
 
 /**
  * The person type, that can be a parent or a children
  *
  * @typedef {Object} Person
  *
+ * @property {number} uid
  * @property {string} firstname
- * @property {Coordinate | null} coordinate
- * @property {"parent" | "child"} role
- */
+ * @property {"male" | "female"} sex
+*/
 
 /**
- * @typedef {object} payload
+ * @typedef {object} members
  *
  * @property {Array<Person>} parents
  * @property {Array<Person>} children
- */
+*/
 
 /**
- * @typedef {object} familyData
+ * @typedef {object} Family
  *
- * @property {number} id
- * @property {"family"} type
+ * @property {number} uid
+ * @property {String} name 
  * @property {object} payload
- */
-
-/**
- * @typedef {object} personData
- *
- * @property {number} id
- * @property {"person"} type
- * @property {string} lastname
- * @property {object} payload
- */
+*/

@@ -1,8 +1,7 @@
-/** @import {Person, familyData} from "./utils.js" */
-
-import {Point} from "./Point.js"
-import {Vertex} from "./Vertex.js"
-import {Edge} from "./Edge.js"
+/** @import {Family} from "../../utils.js" */
+import {Point} from "../figures/Point.js"
+import {Vertex} from "../figures/Vertex.js"
+import {Edge} from "../figures/Edge.js"
 
 
 function generatePattern(n) {
@@ -26,7 +25,7 @@ function generatePattern(n) {
 
 export default class TreeBuilder {
     /**
-     * @param {familyData} data
+     * @param {Family} data
      */
     constructor(data) {
         this.parents = data.payload.parents
@@ -75,8 +74,8 @@ export default class TreeBuilder {
     }
 
     createParents() {
-        this.father = this.parents.find(el => el.role === 'father')
-        this.mother = this.parents.find(el => el.role === 'mother')
+        this.father = this.parents.find(el => el.sex === 'male')
+        this.mother = this.parents.find(el => el.sex === 'female')
 
         this.fatherObj = new Vertex(
             this.anchorPoint.x - this.anchorPoint.radius

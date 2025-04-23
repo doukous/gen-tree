@@ -1,4 +1,4 @@
-import {GraphicalElement} from "../../GraphicalElement.js"
+import {GraphicalElement} from "../figures/GraphicalElement.js"
 import GenealogicalTree from "../trees/GenealogicalTree.js";
 
 /**

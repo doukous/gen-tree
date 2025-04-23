@@ -1,5 +1,5 @@
-import {Vertex} from "./Vertex.js";
-import GenealogicalTree from "./GenealogicalTree.js";
+import {Vertex} from "./canvas/figures/Vertex.js";
+import GenealogicalTree from "./canvas/trees/GenealogicalTree.js";
 
 
 const bPlusEl = document.getElementById('b-plus')
