@@ -17,11 +17,11 @@ async function displayTree() {
             throw new Error(`Response status: ${response.status}`)
         }
   
-        const data = await response.json()
-        f.build(data[0])
+        // const data = await response.json()
+        // f.build(data[0])
 
-        GenealogicalTree.draw()
-        monitorInteraction()
+        // GenealogicalTree.draw()
+        // monitorInteraction()
     } 
     
     catch (error) {

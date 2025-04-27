@@ -1,13 +1,4 @@
-{% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New family</title>
-</head>
-<body>
+<div class="form">
     {% if form.non_field_errors %}
         <ul class="errorlist">
             {% for error in form.non_field_errors %}
@@ -47,5 +38,4 @@
         
         <button type="submit">ajouter</button>
     </form>
-</body>
-</html>
+</div>

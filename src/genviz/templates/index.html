@@ -1,26 +1,28 @@
+{% extends "base.html" %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genealogical Tree</title>
+{% block title %}Genealogical Tree{% endblock %}
+
+{% block additional_header %}
     <link rel="stylesheet" href="{% static 'style/style.css' %}">
     <script type="module" src= "{% static 'script/main.js' %}" defer></script>
-</head>
-<body>
+{% endblock %}
+
+{% block body %}
     <div class="main">
         <div class="canvas-section">
             <div class="gen-tree-btn">
-                <a href="{% url "new-family" %}">ajouter une famille</a>
+                <button 
+                type="button"
+                
+                >add a new family</button>
             </div>
             <canvas width="800" height="800"></canvas>
             <div class="controls">
                 <button id="b-plus">plus</button>
-                <button id="b-minus">moins</button>
+                <button id="b-minus">minus</button>
             </div> 
         </div>
     </div>
-</body>
-</html>
+{% endblock %}
