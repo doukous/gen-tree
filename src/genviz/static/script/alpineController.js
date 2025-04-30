@@ -1,9 +1,27 @@
+import GenealogicalTree from "./canvas/trees/GenealogicalTree.js";
+
+
 document.addEventListener('alpine:init', () => {
-    Alpine.data('addBtn', () => ({
+    Alpine.data('form', () => ({
         visible: true,
 
-        toggle() {
+        open() {
             this.visible = ! this.visible
+        },
+
+        close(evt) {
+            this.visible = ! this.visible
+            evt.target.parentNode.remove(evt.target)
+        }
+    }))
+
+    Alpine.data('zoom', () => ({
+        zoomIn() {
+            GenealogicalTree.zoomIn()
+        },
+
+        zoomOut() {
+            GenealogicalTree.zoomOut()
         }
     }))
 
@@ -32,23 +50,7 @@ document.addEventListener('alpine:init', () => {
     }))
 
     Alpine.store('newChildren', {
-        numberOfChildren: 0,
-
-        get firstname() {
-            return `new_children-${this.numberOfChildren}-firstname`
-        },
-
-        get birthDate() {
-            return `new_children-${this.numberOfChildren}-birth_date`
-        },
-
-        get sex() {
-            return `new_children-${this.numberOfChildren}-sex`
-        },
-
-        add(evt) {
-            this.numberOfChildren++
-            
+        add(evt) {            
             const template = document
             .getElementById('new-child')
             .content
@@ -59,7 +61,6 @@ document.addEventListener('alpine:init', () => {
 
         cancel(evt) {
             evt.target.parentNode.remove(evt.target)
-            this.numberOfChildren--
         }
     })
 })

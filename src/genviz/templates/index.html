@@ -5,27 +5,32 @@
 {% block title %}Genealogical Tree{% endblock %}
 
 {% block additional_headers %}
-    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <link rel="stylesheet" href="{% static 'style/index.css' %}">
     <script type="module" src= "{% static 'script/canvas.js' %}" defer></script>
 {% endblock %}
 
 {% block body %}
-    <div class="main">
-        <div x-data="addBtn" class="canvas-section">
-            {% comment %} <button
+    <div x-data="form" class="main">
+        <div class="canvas-section">
+            <button
                 x-show="visible"
-                @click="toggle"
+                @click="open"
                 id="add-btn"
                 type="button"
                 hx-get="{% url "new-family" %}"
                 hx-swap="beforeend"
                 hx-target=".main"
-            >add</button>{% endcomment %}
-            <a href="{% url "new-family" %}">add</a>
+            >add</button>
             <canvas width="800" height="800"></canvas>
-            <div class="controls">
-                <button id="b-plus">plus</button>
-                <button id="b-minus">minus</button>
+            <div x-data="zoom">
+                <button 
+                    type="button"
+                    @click="zoomIn"
+                >plus</button>
+                <button 
+                    type="button"
+                    @click="zoomOut"
+                >minus</button>
             </div> 
         </div>
     </div>
