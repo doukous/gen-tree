@@ -19,9 +19,7 @@ class PersonForm(forms.Form):
 
     firstname = forms.CharField(required=False)
     birth_date = forms.DateField(
-        widget=forms.DateInput(attrs={
-           'type': 'date',
-        }),
+        widget=forms.DateInput(),
         required=False
     )
 
@@ -41,7 +39,7 @@ class ChildForm(PersonForm):
         ('female', 'Femme')
     }
     
-    sex = forms.ChoiceField(choices=SEX_CHOICES, initial='male', required=False)
+    sex = forms.ChoiceField(choices=SEX_CHOICES, required=False)
     role = 'child'
 
 ChildFormSet = forms.formset_factory(ChildForm, extra=1)
@@ -74,7 +72,7 @@ class FamilyForm(forms.Form):
         self.new_female_partner = PersonForm(data=self.nested_data['new_female_partner'], prefix='new_female_partner')
         self.children = ChildFormSet(data=self.nested_data['new_children'], prefix='new_children')
 
-    family_name = forms.CharField(initial='family name')
+    family_name = forms.CharField()
 
     male_partner_choice = forms.ChoiceField(
         choices=PersonForm.MEN_CHOICES, 

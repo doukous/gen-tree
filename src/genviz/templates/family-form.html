@@ -1,7 +1,12 @@
-<div id="form-container">
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block body %}
+<div id="form-container" class="w-1/3 h-full gap-y-16 py-8">
     <button
         type="button"
         @click="close"
+        class="btn btn-primary red"
     >Close</button>
 
     {% if form.non_field_errors %}
@@ -16,97 +21,116 @@
         hx-post={% url "new-family" %}
         hx-target="#form-container"
         hx-swap="outerHTML"
+        class="flex flex-col gap-y-12"
         >
         {% csrf_token %}
-        {{ form.family_name.as_field_group }}
 
-        <fieldset x-data="newPartner('male')" id="male-partner-section">
-            <legend>male partner</legend>
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+            <legend class="legend ">Family name</legend>
+            <label class="label" for="id_family_name">Name</label>
+            {{ form.family_name|attr:"class:input input-bordered w-full"|attr:"placeholder:enter the name here" }}
+        </fieldset>
 
-            {{ form.male_partner_choice.as_field_group }}
-            <span>or</span>
+        <fieldset class="flex w-full flex-col fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4" x-data="newPartner('male')" id="male-partner-section">
+            <legend class="legend">Male partner</legend>
+            <label class="label">Select a partner</label>
+            {{ form.male_partner_choice|attr:"class:select select-primary select-lg" }}
+            <span class="divider">or</span>
             <button 
                 type="button"
                 x-show="!rendered"
                 @click="handleDisplay"
+                class="btn btn-primary"
             >add a new partner</button>
         </fieldset>
 
-        <fieldset x-data="newPartner('female')" id="female-partner-section">
-            <legend>female partner</legend>
-
-            {{ form.female_partner_choice.as_field_group }}
-            <span>or</span>
+        <fieldset class="flex w-full flex-col fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4" x-data="newPartner('female')" id="female-partner-section">
+            <legend class="legend">Female partner</legend>
+            <label class="label">Select a partner</label>
+            {{ form.female_partner_choice|attr:"class:select select-primary select-lg" }}
+            <span class="divider">or</span>
             <button 
                 type="button"
                 x-show="!rendered"
                 @click="handleDisplay"
+                class="btn btn-primary"
             >add a new partner</button>
         </fieldset>
 
         <div x-data class="children">            
-                <fieldset>
+                <fieldset class="flex w-full flex-col fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
                     <legend>children</legend>
-                    {{ form.children_choices.as_field_group }}
-                    <span>or</span>
+                    <label class="label">Select children</label>
+                    {{ form.children_choices|attr:"class:select select-primary select-lg" }}
+                    <span class="divider">or</span>
                     {{ form.children.management_form }}
                     <button 
                         type="button"
                         @click="$store.newChildren.add"
+                        class="btn btn-primary"
                     >add a new child</button>
                 </fieldset>
         </div>
         
-        <button type="submit">Create family</button>
+        <button 
+            type="submit"
+            class="btn btn-primary"
+        >Create family</button>
     </form>
     <template id="new-male-partner">
-        <fieldset style="border=1px solid">
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4" style="border=1px solid">
             <legend>new male partner</legend>
-            {{ form.new_male_partner.firstname.as_field_group }}
-            {{ form.new_male_partner.birth_date.as_field_group }} 
+            {{ form.new_male_partner.firstname }}
+            {{ form.new_male_partner.birth_date }} 
             
             <button 
                 type="button"
                 @click="handleDisplay"
+                class="btn btn-primary"
             >cancel</button>
         </fieldset>
     </template>
 
     <template id="new-female-partner">
-        <fieldset style="border=1px solid">
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4" style="border=1px solid">
             <legend>new female partner</legend>
-            {{ form.new_female_partner.firstname.as_field_group }}
-            {{ form.new_female_partner.birth_date.as_field_group }}  
+
+            <label class="label">firstname</label>
+            {{ form.new_female_partner.firstname }}
+
+            <label class="label">Birth date</label>
+            {{ form.new_female_partner.birth_date }}  
             
             <button 
                 type="button"
                 @click="handleDisplay"
+                class="btn btn-primary"
             >cancel</button>
         </fieldset>
     </template>
 
     <template id="new-child">      
-        <fieldset x-id="['new_children']">
-            <legend>New child</legend>
-            <div>
-                <label :for="'id_'+$id('new_children')+'-firstname'">Firstname :</label>
-                <input type="text" :name="$id('new_children')+'-firstname'" :id="'id_'+$id('new_children')+'-firstname'">
-            </div> 
-            <div>
-                <label :for="'id_'+$id('new_children')+'-birth_date'">Birth date :</label>
-                <input type="date" :name="$id('new_children')+'-birth_date'" :id="'id_'+$id('new_children')+'-birth_date'">
-            </div> 
-            <div>
-                <label :for="'id_'+$id('new_children')+'-sex'">Sex :</label>
-                <select name="'id_'+$id('new_children')+'-sex'" id="'id_'+$id('new_children')+'-sex'">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-            </div> 
-            <button 
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4" x-id="['new_children']">
+            <legend class="fieldset-legend">New child</legend>
+           
+            <label class="label" :for="'id_'+$id('new_children')+'-firstname'">Firstname :</label>
+            <input type="text" :name="$id('new_children')+'-firstname'" :id="'id_'+$id('new_children')+'-firstname'">
+            
+            <label class="label" :for="'id_'+$id('new_children')+'-birth_date'">Birth date :</label>
+            <input class="input" type="date" :name="$id('new_children')+'-birth_date'" :id="'id_'+$id('new_children')+'-birth_date'">
+
+            <label class="label" :for="'id_'+$id('new_children')+'-sex'">Sex :</label>
+            <select class="select" name="'id_'+$id('new_children')+'-sex'" id="'id_'+$id('new_children')+'-sex'">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+
+            <button
                 type="button"
                 @click="$store.newChildren.cancel"
+                class="btn btn-primary"
             >cancel</button>  
         </fieldset>
     </template>
 </div>
+{% endblock  %}
