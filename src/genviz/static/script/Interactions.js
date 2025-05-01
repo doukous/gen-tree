@@ -2,17 +2,6 @@ import {Vertex} from "./canvas/figures/Vertex.js";
 import GenealogicalTree from "./canvas/trees/GenealogicalTree.js";
 
 
-const bPlusEl = document.getElementById('b-plus')
-const bMinusEl = document.getElementById('b-minus')
-
-bPlusEl.addEventListener('click', () => {
-    GenealogicalTree.zoomIn()
-})
-
-bMinusEl.addEventListener('click', () => {
-    GenealogicalTree.zoomOut()
-})
-
 function getAdjustedMouseCoordinates(mouseX, mouseY) {
     const adjustedX = (mouseX - GenealogicalTree.panOffset.x  + GenealogicalTree.scaledOffset.x) / GenealogicalTree.scale
     const adjustedY = (mouseY - GenealogicalTree.panOffset.y  + GenealogicalTree.scaledOffset.y) / GenealogicalTree.scale

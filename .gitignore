@@ -6,3 +6,4 @@ __pycache__
 src/db.sqlite3
 uv.lock
 docker-compose.yml
+src/genviz/static/style/tailwind
