@@ -4,14 +4,14 @@ from django import forms
 
 class PersonForm(forms.Form):
     MEN_CHOICES = {
-        ('', '---choisir---'),
+        ('', 'Choose a partner'),
         ('mohamed', 'Mohamed'),
         ('adama', 'Adama'),
         ('saliou', 'Saliou')
     }
 
     WOMEN_CHOICES = {
-        ('', '---choisir---'),
+        ('', 'Choose a partner'),
         ('khadija', 'Khadija'),
         ('mareme', 'Mareme'),
         ('awa', 'Awa')
@@ -34,9 +34,9 @@ class PersonForm(forms.Form):
 
 class ChildForm(PersonForm):
     SEX_CHOICES = {
-        ('', '---choisir---'),
-        ('male', 'Homme'),
-        ('female', 'Femme')
+        ('', 'Choose the sex'),
+        ('male', 'Male'),
+        ('female', 'Female')
     }
     
     sex = forms.ChoiceField(choices=SEX_CHOICES, required=False)
