@@ -2,18 +2,38 @@ import GenealogicalTree from "./canvas/trees/GenealogicalTree.js";
 
 
 document.addEventListener('alpine:init', () => {
-    Alpine.data('form', () => ({
+    Alpine.directive('name', (el, {expression}, {evaluateLater, effect}) => {
+        let currentValue = evaluateLater("$store.newChildren.formNumber")
+
+        const setName = () => {
+            const listEl = expression.split('-')
+            const itemsList = [...el.parentNode.parentNode.getElementsByTagName('fieldset')]
+
+            listEl[1] = itemsList.indexOf(el.parentNode) 
+            el.setAttribute('name', listEl.join('-'))
+        }
+
+        setName()
+
+        effect(() => {
+            currentValue(() => {
+                setName()
+            })
+        })
+    })
+
+    Alpine.store('form', {
         visible: true,
 
         open() {
-            this.visible = ! this.visible
+            this.visible = !this.visible
         },
 
         close(evt) {
             this.visible = ! this.visible
             evt.target.parentNode.remove(evt.target)
         }
-    }))
+    })
 
     Alpine.data('zoom', () => ({
         zoomIn() {
@@ -50,17 +70,23 @@ document.addEventListener('alpine:init', () => {
     }))
 
     Alpine.store('newChildren', {
+        formNumber: 0,
+        formNumberEl: document.getElementById('id_new_children-TOTAL_FORMS'),
+
         add(evt) {            
             const template = document
             .getElementById('new-child')
             .content
             .cloneNode(true)
-
             evt.target.parentNode.appendChild(template)
+            this.formNumber++
+            this.formNumberEl.setAttribute('value', this.formNumber)
         },
 
         cancel(evt) {
             evt.target.parentNode.remove(evt.target)
+            this.formNumber--
+            this.formNumberEl.setAttribute('value', this.formNumber)
         }
     })
 })

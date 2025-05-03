@@ -1,4 +1,5 @@
 from datetime import date
+from pprint import pprint
 from django import forms
 
 
@@ -39,10 +40,9 @@ class ChildForm(PersonForm):
         ('female', 'Female')
     }
     
-    sex = forms.ChoiceField(choices=SEX_CHOICES, required=False)
-    role = 'child'
+    sex = forms.ChoiceField(choices=SEX_CHOICES, required=True)
 
-ChildFormSet = forms.formset_factory(ChildForm, extra=1)
+ChildFormSet = forms.formset_factory(ChildForm, extra=0)
 
 
 class FamilyForm(forms.Form):
@@ -56,6 +56,7 @@ class FamilyForm(forms.Form):
         }
 
         if data:
+            pprint(data)
             self.nested_data = {}
 
             children_data = {key:data[key] for key in data.keys() if key.startswith('new_children')}
@@ -104,10 +105,10 @@ class FamilyForm(forms.Form):
         cleaned_data = super().clean()
         self.new_male_partner.is_valid()
         self.new_female_partner.is_valid()
+        self.children.is_valid()
 
         if not (self.cleaned_data['male_partner_choice'] or self.new_male_partner.cleaned_data['firstname']) \
             and not (self.cleaned_data['female_partner_choice'] or self.new_female_partner.cleaned_data['firstname']):
-
             raise forms.ValidationError('at least one partner need to be defined')
         
         elif self.cleaned_data['male_partner_choice'] and self.new_male_partner.cleaned_data['firstname']:
@@ -116,5 +117,12 @@ class FamilyForm(forms.Form):
         elif self.cleaned_data['female_partner_choice'] and self.new_female_partner.cleaned_data['firstname']:
             raise forms.ValidationError('cannot set second partner choice and create a new second partner at the same time')
 
-        return cleaned_data
+        cleaned_nested_data = cleaned_data.copy()
+        cleaned_nested_data['new_male_partner'] = self.new_male_partner.cleaned_data
+        cleaned_nested_data['new_female_partner'] = self.new_male_partner.cleaned_data
+        cleaned_nested_data['new_children'] = self.children.cleaned_data
+
+        pprint(cleaned_nested_data)
+
+        return cleaned_nested_data
     

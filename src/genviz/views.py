@@ -1,5 +1,3 @@
-from django.shortcuts import redirect
-from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from genviz.forms import FamilyForm
@@ -14,7 +12,9 @@ class CreateFamilyView(FormView):
     template_name = "family-form.html"
     success_url = "/registration-completed"
 
+    def form_valid(self, form: FamilyForm):
+        return super().form_valid(form)
+    
 
-class RegistrationCompleteView(View):
-    def get(self, request):
-        return redirect('home')
+class RegistrationCompleteView(TemplateView):
+    template_name = "form-successful.html"

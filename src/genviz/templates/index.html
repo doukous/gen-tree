@@ -9,27 +9,30 @@
 {% endblock %}
 
 {% block body %}
-    <div id="main" x-data="form" class="flex flex-row items-center justify-around gap-x-8 h-full">
+    <div x-data id="main" class="flex flex-row items-center justify-around gap-x-8 h-full">
         <div class="flex flex-col justify-center items-center h-screen">
             <button
-                class="btn btn-primary blue my-8"
-                x-show="visible"
-                @click="open"
+                class="btn btn-soft my-4"
+                x-show="$store.form.visible"
+                @click="$store.form.open()"
                 id="add-btn"
                 type="button"
                 hx-get="{% url "new-family" %}"
                 hx-swap="beforeend"
                 hx-target="#main"
             >add</button>
+
             <canvas class="border-2 border-solid outline rounded-md" width="1200" height="700"></canvas>
-            <div x-data="zoom" class="flex flex-row gap-x-12 my-8">
+
+            <div x-data="zoom" class="flex flex-row my-4 gap-x-12">
                 <button 
-                    class="btn btn-primary blue"
+                    class="btn btn-soft"
                     type="button"
                     @click="zoomIn"
                 >plus</button>
+
                 <button
-                    class="btn btn-primary blue"
+                    class="btn btn-soft"
                     type="button"
                     @click="zoomOut"
                 >minus</button>

@@ -1,9 +1,11 @@
+{% extends "base.html" %}
 {% load widget_tweaks %}
 
+{% block body %}
 <div id="form-container" class="h-screen overflow-y-scroll flex flex-col items-center gap-y-8 py-8">
     <button
         type="button"
-        @click="close"
+        @click="$store.form.close($event)"
         class="btn btn-soft btn-error"
     >Cancel</button>
 
@@ -27,7 +29,7 @@
             <legend class="fieldset-legend ">Family name</legend>
             
             <label class="label" for="id_family_name">Name</label>
-            {{ form.family_name|attr:"class:input"|attr:"placeholder:enter the name here" }}
+            {{ form.family_name|attr:"class:input"|attr:"placeholder:Enter the name here" }}
         </fieldset>
 
         <fieldset class="flex flex-col items-center fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4" x-data="newPartner('male')" id="male-partner-section">
@@ -62,7 +64,7 @@
             >Add a new partner</button>
         </fieldset>
 
-        <div x-data class="children">            
+        <div x-data>            
                 <fieldset class="flex flex-col items-center fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4">
                     <legend class="fieldset-legend">Children</legend>
                     
@@ -75,7 +77,7 @@
                     
                     <button 
                         type="button"
-                        @click="$store.newChildren.add"
+                        @click="$store.newChildren.add($event)"
                         class="btn btn-outline"
                     >Add a new child</button>
                 </fieldset>
@@ -83,18 +85,18 @@
         
         <button 
             type="submit"
-            class="btn btn-primary"
+            class="btn btn-outline btn-success"
         >Create family</button>
     </form>
     <template id="new-male-partner">
         <fieldset class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4" style="border=1px solid">
-            <legend>New male partner</legend>
+            <legend class="fieldset-legend">New male partner</legend>
 
             <label class="label">Firstname</label>
             {{ form.new_male_partner.firstname|attr:"class:input" }}
 
             <label class="label">Birth date</label>
-            {{ form.new_male_partner.birth_date|attr:"class:input" }} 
+            {{ form.new_male_partner.birth_date|attr:"class:input"|attr:"type:date" }} 
             
             <button 
                 type="button"
@@ -106,13 +108,13 @@
 
     <template id="new-female-partner">
         <fieldset class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4" style="border=1px solid">
-            <legend>New female partner</legend>
+            <legend class="fieldset-legend">New female partner</legend>
 
             <label class="label">Firstname</label>
             {{ form.new_female_partner.firstname|attr:"class:input" }}
 
             <label class="label">Birth date</label>
-            {{ form.new_female_partner.birth_date|attr:"class:input" }}  
+            {{ form.new_female_partner.birth_date|attr:"class:input"|attr:"type:date" }}  
             
             <button 
                 type="button"
@@ -123,17 +125,17 @@
     </template>
 
     <template id="new-child">      
-        <fieldset class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4" x-id="['new_children']">
+        <fieldset x-data class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4">
             <legend class="fieldset-legend">New child</legend>
            
-            <label class="label" :for="'id_'+$id('new_children')+'-firstname'">Firstname</label>
-            <input type="text" class="input" :name="$id('new_children')+'-firstname'" :id="'id_'+$id('new_children')+'-firstname'">
+            <label class="label">Firstname</label>
+            <input type="text" class="input" x-name="new_children-custom_id-firstname">
             
-            <label class="label" :for="'id_'+$id('new_children')+'-birth_date'">Birth date</label>
-            <input class="input" type="date" :name="$id('new_children')+'-birth_date'" :id="'id_'+$id('new_children')+'-birth_date'">
+            <label class="label">Birth date</label>
+            <input class="input" type="date" x-name="new_children-custom_id-birth_date">
 
-            <label class="label" :for="'id_'+$id('new_children')+'-sex'">Sex</label>
-            <select class="select" name="'id_'+$id('new_children')+'-sex'" id="'id_'+$id('new_children')+'-sex'">
+            <label class="label">Sex</label>
+            <select class="select" x-name="new_children-custom_id-sex">
                 <option value="" selected disabled>Choose the sex</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -141,9 +143,10 @@
 
             <button
                 type="button"
-                @click="$store.newChildren.cancel"
+                @click="$store.newChildren.cancel($event)"
                 class="btn btn-primary"
             >cancel</button>  
         </fieldset>
     </template>
 </div>
+{% endblock  %}
