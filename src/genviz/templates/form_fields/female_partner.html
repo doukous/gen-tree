@@ -1,0 +1,35 @@
+{% load widget_tweaks %}
+
+{{ form.new_female_partner.errors }}
+
+<fieldset 
+    class="flex flex-col items-center fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4"
+    x-data="newPartner('female')" 
+    id="female-partner-section"
+>
+    <legend class="fieldset-legend">Female partner</legend>
+
+    <label class="label">Select a partner</label>
+    {{ form.female_partner_choice|attr:"class:select select-md" }}
+
+    <span class="divider">or</span>
+
+    <button type="button" x-show="!rendered" @click="handleDisplay" class="btn btn-outline">Add a new partner</button>
+</fieldset>
+
+<template id="new-female-partner">
+    <fieldset
+        class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4" 
+        style="border=1px solid"
+    >
+        <legend class="fieldset-legend">New female partner</legend>
+
+        <label class="label">Firstname</label>
+        {{ form.new_female_partner.firstname|attr:"class:input" }}
+
+        <label class="label">Birth date</label>
+        {{ form.new_female_partner.birth_date|attr:"class:input"|attr:"type:date" }}
+
+        <button type="button" @click="handleDisplay" class="btn btn-primary">cancel</button>
+    </fieldset>
+</template>

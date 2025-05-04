@@ -56,7 +56,6 @@ class FamilyForm(forms.Form):
         }
 
         if data:
-            pprint(data)
             self.nested_data = {}
 
             children_data = {key:data[key] for key in data.keys() if key.startswith('new_children')}
@@ -119,10 +118,8 @@ class FamilyForm(forms.Form):
 
         cleaned_nested_data = cleaned_data.copy()
         cleaned_nested_data['new_male_partner'] = self.new_male_partner.cleaned_data
-        cleaned_nested_data['new_female_partner'] = self.new_male_partner.cleaned_data
-        cleaned_nested_data['new_children'] = self.children.cleaned_data
-
-        pprint(cleaned_nested_data)
+        cleaned_nested_data['new_female_partner'] = self.new_female_partner.cleaned_data
+        cleaned_nested_data['new_children'] = [form.cleaned_data for form in self.children]
 
         return cleaned_nested_data
     

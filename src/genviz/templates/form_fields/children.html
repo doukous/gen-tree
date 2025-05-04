@@ -1,0 +1,41 @@
+{% load widget_tweaks %}
+
+{% for error in form.children.errors %}
+{{ error }}
+{% endfor %}
+
+<div x-data>
+    <fieldset class="flex flex-col items-center fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4">
+        <legend class="fieldset-legend">Children</legend>
+
+        <label class="label">Select children</label>
+        {{ form.children_choices|attr:"class:select select-md h-32" }}
+
+        <span class="divider">or</span>
+
+        {{ form.children.management_form }}
+
+        <button type="button" @click="$store.newChildren.add($event)" class="btn btn-outline">Add a new child</button>
+    </fieldset>
+</div>
+
+<template id="new-child">
+    <fieldset x-data class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4">
+        <legend class="fieldset-legend">New child</legend>
+
+        <label class="label">Firstname</label>
+        <input type="text" class="input" x-name="new_children-custom_id-firstname">
+
+        <label class="label">Birth date</label>
+        <input class="input" type="date" x-name="new_children-custom_id-birth_date">
+
+        <label class="label">Sex</label>
+        <select class="select" x-name="new_children-custom_id-sex">
+            <option value="" selected disabled>Choose the sex</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+        <button type="button" @click="$store.newChildren.cancel($event)" class="btn btn-primary">cancel</button>
+    </fieldset>
+</template>

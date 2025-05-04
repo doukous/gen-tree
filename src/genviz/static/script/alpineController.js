@@ -45,25 +45,25 @@ document.addEventListener('alpine:init', () => {
         }
     }))
 
-    Alpine.data('newPartner', (partner) => ({
+    Alpine.data('newPartner', (sex) => ({
         rendered: false,
-        partnerType: partner,
+        partner: sex,
 
         handleDisplay(evt) {
             if (! this.rendered) {
-                this.rendered = true
-
                 const template = document
-                .getElementById(`new-${this.partnerType}-partner`)
+                .getElementById(`new-${sex}-partner`)
                 .content
                 .cloneNode(true)
 
+                console.log(template)
+
                 evt.target.parentNode.appendChild(template)
+                this.rendered = true
             }
 
             else {
-                const higherNode = evt.target.parentNode.parentNode
-                higherNode.removeChild(evt.target.parentNode)
+                evt.target.parentNode.remove()
                 this.rendered = false
             }
         }

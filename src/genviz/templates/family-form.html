@@ -32,121 +32,16 @@
             {{ form.family_name|attr:"class:input"|attr:"placeholder:Enter the name here" }}
         </fieldset>
 
-        <fieldset class="flex flex-col items-center fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4" x-data="newPartner('male')" id="male-partner-section">
-            <legend class="fieldset-legend">Male partner</legend>
-            
-            <label class="label">Select a partner</label>
-            {{ form.male_partner_choice|attr:"class:select select-md" }}
-            
-            <span class="divider">or</span>
-            
-            <button 
-                type="button"
-                x-show="!rendered"
-                @click="handleDisplay"
-                class="btn btn-outline"
-            >Add a new partner</button>
-        </fieldset>
+        {% include "form_fields/male_partner.html" %}
 
-        <fieldset class="flex flex-col items-center fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4" x-data="newPartner('female')" id="female-partner-section">
-            <legend class="fieldset-legend">Female partner</legend>
+        {% include "form_fields/female_partner.html" %}
 
-            <label class="label">Select a partner</label>
-            {{ form.female_partner_choice|attr:"class:select select-md" }}
-
-            <span class="divider">or</span>
-
-            <button 
-                type="button"
-                x-show="!rendered"
-                @click="handleDisplay"
-                class="btn btn-outline"
-            >Add a new partner</button>
-        </fieldset>
-
-        <div x-data>            
-                <fieldset class="flex flex-col items-center fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4">
-                    <legend class="fieldset-legend">Children</legend>
-                    
-                    <label class="label">Select children</label>
-                    {{ form.children_choices|attr:"class:select select-md h-32" }}
-                    
-                    <span class="divider">or</span>
-                    
-                    {{ form.children.management_form }}
-                    
-                    <button 
-                        type="button"
-                        @click="$store.newChildren.add($event)"
-                        class="btn btn-outline"
-                    >Add a new child</button>
-                </fieldset>
-        </div>
+        {% include "form_fields/children.html" %}
         
         <button 
             type="submit"
             class="btn btn-outline btn-success"
         >Create family</button>
     </form>
-    <template id="new-male-partner">
-        <fieldset class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4" style="border=1px solid">
-            <legend class="fieldset-legend">New male partner</legend>
-
-            <label class="label">Firstname</label>
-            {{ form.new_male_partner.firstname|attr:"class:input" }}
-
-            <label class="label">Birth date</label>
-            {{ form.new_male_partner.birth_date|attr:"class:input"|attr:"type:date" }} 
-            
-            <button 
-                type="button"
-                @click="handleDisplay"
-                class="btn btn-primary"
-            >cancel</button>
-        </fieldset>
-    </template>
-
-    <template id="new-female-partner">
-        <fieldset class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4" style="border=1px solid">
-            <legend class="fieldset-legend">New female partner</legend>
-
-            <label class="label">Firstname</label>
-            {{ form.new_female_partner.firstname|attr:"class:input" }}
-
-            <label class="label">Birth date</label>
-            {{ form.new_female_partner.birth_date|attr:"class:input"|attr:"type:date" }}  
-            
-            <button 
-                type="button"
-                @click="handleDisplay"
-                class="btn btn-primary"
-            >cancel</button>
-        </fieldset>
-    </template>
-
-    <template id="new-child">      
-        <fieldset x-data class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4">
-            <legend class="fieldset-legend">New child</legend>
-           
-            <label class="label">Firstname</label>
-            <input type="text" class="input" x-name="new_children-custom_id-firstname">
-            
-            <label class="label">Birth date</label>
-            <input class="input" type="date" x-name="new_children-custom_id-birth_date">
-
-            <label class="label">Sex</label>
-            <select class="select" x-name="new_children-custom_id-sex">
-                <option value="" selected disabled>Choose the sex</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-
-            <button
-                type="button"
-                @click="$store.newChildren.cancel($event)"
-                class="btn btn-primary"
-            >cancel</button>  
-        </fieldset>
-    </template>
 </div>
 {% endblock  %}
