@@ -15,12 +15,17 @@
 
         {{ form.children.management_form }}
 
-        <button type="button" @click="$store.newChildren.add($event)" class="btn btn-outline">Add a new child</button>
+        <button 
+            type="button" 
+            @click="$store.newChildren.add($event)" 
+            class="btn btn-outline"
+            id="add-children-btn"
+        >Add a new child</button>
     </fieldset>
 </div>
 
 <template id="new-child">
-    <fieldset x-data class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4">
+    <fieldset class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4">
         <legend class="fieldset-legend">New child</legend>
 
         <label class="label">Firstname</label>
@@ -36,6 +41,10 @@
             <option value="female">Female</option>
         </select>
 
-        <button type="button" @click="$store.newChildren.cancel($event)" class="btn btn-primary">cancel</button>
+        <button 
+            type="button" 
+            @click="$store.newChildren.cancel($event)" 
+            class="btn btn-primary"
+        >cancel</button>
     </fieldset>
 </template>

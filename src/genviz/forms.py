@@ -1,23 +1,34 @@
 from datetime import date
-from pprint import pprint
 from django import forms
+from genviz.models import Person
 
+
+class PersonChoices:
+    @property
+    def men_choices(self):
+        men = {('', 'Choose a partner')}
+        men.update(
+            {
+                (person.uid, person.firstname) 
+                for person in Person.nodes.filter(sex='male').all()
+            }
+        )
+        return men
+
+    @property
+    def women_choices(self):
+        women = {('', 'Choose a partner')}
+        women.update(
+            {
+                (person.uid, person.firstname) 
+                for person in Person.nodes.filter(sex='female').all()
+            }
+        )
+        return women
+
+person_choice = PersonChoices()
 
 class PersonForm(forms.Form):
-    MEN_CHOICES = {
-        ('', 'Choose a partner'),
-        ('mohamed', 'Mohamed'),
-        ('adama', 'Adama'),
-        ('saliou', 'Saliou')
-    }
-
-    WOMEN_CHOICES = {
-        ('', 'Choose a partner'),
-        ('khadija', 'Khadija'),
-        ('mareme', 'Mareme'),
-        ('awa', 'Awa')
-    }
-
     firstname = forms.CharField(required=False)
     birth_date = forms.DateField(
         widget=forms.DateInput(),
@@ -30,7 +41,6 @@ class PersonForm(forms.Form):
         
         if cleaned_date and cleaned_date > date.today():
             raise forms.ValidationError('the date is in the future...')
-
         return cleaned_date
 
 class ChildForm(PersonForm):
@@ -75,17 +85,18 @@ class FamilyForm(forms.Form):
     family_name = forms.CharField()
 
     male_partner_choice = forms.ChoiceField(
-        choices=PersonForm.MEN_CHOICES, 
+        choices=person_choice.men_choices, 
         required=False    
     )
 
     female_partner_choice = forms.ChoiceField(
-        choices=PersonForm.WOMEN_CHOICES, 
+        choices=person_choice.women_choices, 
         required=False
     )
 
-    all_people = PersonForm.MEN_CHOICES.copy()
-    all_people.update(PersonForm.WOMEN_CHOICES)
+    all_people = {} 
+    all_people.update(person_choice.men_choices)
+    all_people.update(person_choice.women_choices)
 
     children_choices = forms.MultipleChoiceField(
         choices=all_people, 

@@ -73,20 +73,22 @@ document.addEventListener('alpine:init', () => {
         formNumber: 0,
         formNumberEl: document.getElementById('id_new_children-TOTAL_FORMS'),
 
-        add(evt) {            
+        add(evt) {   
             const template = document
             .getElementById('new-child')
             .content
             .cloneNode(true)
-            evt.target.parentNode.appendChild(template)
-            this.formNumber++
-            this.formNumberEl.setAttribute('value', this.formNumber)
+
+            evt.target.parentNode.insertBefore(
+                template,
+                document.getElementById('add-children-btn')
+            )
+            document.getElementById('id_new_children-TOTAL_FORMS').setAttribute('value', ++this.formNumber)
         },
 
         cancel(evt) {
             evt.target.parentNode.remove(evt.target)
-            this.formNumber--
-            this.formNumberEl.setAttribute('value', this.formNumber)
+            document.getElementById('id_new_children-TOTAL_FORMS').setAttribute('value', --this.formNumber)
         }
     })
 })
