@@ -1,3 +1,4 @@
+/** @import {Vertex} from "./Vertex.js" */
 import {GraphicalElement} from "./GraphicalElement.js"
 
 /**

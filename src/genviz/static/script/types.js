@@ -1,3 +1,7 @@
+import { Edge } from "./canvas/figures/Edge";
+import { Point } from "./canvas/figures/Point";
+import { Vertex } from "./canvas/figures/Vertex";
+
 /**
  * The coordinates of a point
  *
@@ -18,7 +22,7 @@
 */
 
 /**
- * @typedef {object} members
+ * @typedef {object} payload
  *
  * @property {Array<Person>} parents
  * @property {Array<Person>} children
@@ -29,5 +33,13 @@
  *
  * @property {number} uid
  * @property {String} name 
- * @property {object} payload
+ * @property {payload} payload
 */
+
+/**
+ * @typedef {object} FamilyElements
+ * 
+ * @property {Array<Vertex>} vertices
+ * @property {Array<Edge>} edges
+ * @property {Array<Point>} anchor
+ */

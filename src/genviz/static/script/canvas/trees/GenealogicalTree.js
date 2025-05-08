@@ -1,13 +1,9 @@
 export default class GenealogicalTree {
     static scale = 0.8
     static existingTree = null
-    /**
-     * @type {FamilyTree[]}
-     */
+    /** @type {FamilyTree[]} */
     static subtreesList = []
-    /**
-     * @type {CanvasRenderingContext2D | null}
-     */
+    /** @type {CanvasRenderingContext2D | null} */
     static context = null
     static canvas = null
     static isPanMode = false
@@ -33,7 +29,6 @@ export default class GenealogicalTree {
     static zoomIn() {
         if (GenealogicalTree.scale < 1.2) {
             GenealogicalTree.scale += 0.05
-            GenealogicalTree.context.reset()
             GenealogicalTree.draw()
         }
     }
@@ -41,31 +36,31 @@ export default class GenealogicalTree {
     static zoomOut() {
         if (GenealogicalTree.scale > 0.5) {
             GenealogicalTree.scale -= 0.05
-            GenealogicalTree.context.reset()
             GenealogicalTree.draw()
         }
     }
 
-    /**
-     *
-     * @param {Coordinate} values
-     */
+    /** @param {Coordinate} values */
     static set baseOffset(values) {
         GenealogicalTree.baseOffset = values
     }
-
+    
+    /** @param {boolean} value */
     static set isPanMode(value) {
         GenealogicalTree.isPanMode = value
     }
 
+    /** @param {Coordinate} panOffset */
     static set panOffset(panOffset) {
         GenealogicalTree.panOffset = panOffset
     }
 
+    /** @param {Coordinate} scaleOffset */
     static set scaledOffset(scaleOffset) {
         GenealogicalTree.scaledOffset = scaleOffset
     }
 
+    /** @param {Coordinate} deltaOffset */
     static set deltaOffset(deltaOffset) {
         GenealogicalTree.deltaOffset = deltaOffset
     }
@@ -93,8 +88,16 @@ export default class GenealogicalTree {
         }
     }
 
-    static draw() {
+    static reset() {
         GenealogicalTree.context.reset()
+
+        for (let el of GenealogicalTree.subtreesList) {
+            el.reset()
+        }
+    }
+
+    static draw() {
+        GenealogicalTree.reset()
 
         const scaleWidth = GenealogicalTree.canvas.width * GenealogicalTree.scale
         const scaleHeight = GenealogicalTree.canvas.height * GenealogicalTree.scale
@@ -122,9 +125,7 @@ export default class GenealogicalTree {
         GenealogicalTree.context.restore()
     }
 
-    /**
-     * @param {FamilyTree} tree
-     */
+    /** @param {FamilyTree} tree */
     static registerTree(tree) {
         GenealogicalTree.subtreesList.push(tree)
     }

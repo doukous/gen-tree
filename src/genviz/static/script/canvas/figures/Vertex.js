@@ -35,6 +35,7 @@ export class Vertex extends GraphicalElement {
 
         this.width = width
         this.height = height
+        this.rendered = false
 
         Vertex.vertices.push(this)
     }
@@ -64,6 +65,10 @@ export class Vertex extends GraphicalElement {
         })
     }
 
+    reset() {
+        this.rendered = false
+    }
+
     draw(ctx) {
         ctx.roundRect(this.x, this.y, this.width, this.height, 10)
         ctx.stroke()
@@ -74,6 +79,8 @@ export class Vertex extends GraphicalElement {
         ctx.textBaseline = "middle"
         ctx.fillText(this.firstname, (this.x + this.width / 2), (this.y + this.height / 2))
         ctx.restore()
+
+        this.rendered = true
     }
     
     /**

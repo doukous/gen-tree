@@ -19,8 +19,8 @@ export function monitorInteraction() {
     })
 
     GenealogicalTree.canvas.addEventListener('pointerdown', (e) => {
-            const [adjustedX, adjustedY] = getAdjustedMouseCoordinates(e.offsetX, e.offsetY)
-            GenealogicalTree.baseOffset = {x: adjustedX, y: adjustedY}
+        const [adjustedX, adjustedY] = getAdjustedMouseCoordinates(e.offsetX, e.offsetY)
+        GenealogicalTree.baseOffset = {x: adjustedX, y: adjustedY}
     })
 
     GenealogicalTree.canvas.addEventListener('pointerup', (e) => {

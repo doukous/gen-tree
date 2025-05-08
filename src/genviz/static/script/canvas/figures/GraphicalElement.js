@@ -7,4 +7,6 @@ export class GraphicalElement {
      * @returns {void}
      */
     draw(context) {}
+    
+    reset() {}
 }

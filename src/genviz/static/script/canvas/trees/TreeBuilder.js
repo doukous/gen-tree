@@ -1,4 +1,4 @@
-/** @import {Family} from "../../utils.js" */
+/** @import {Family} from "../../types.js" */
 import {Point} from "../figures/Point.js"
 import {Vertex} from "../figures/Vertex.js"
 import {Edge} from "../figures/Edge.js"
@@ -23,14 +23,21 @@ function generatePattern(n) {
     return result;
 }
 
-export default class TreeBuilder {
-    /**
-     * @param {Family} data
-     */
-    constructor(data) {
-        this.parents = data.payload.parents
-        this.children = data.payload.children
+function* infinite() {
+    let index = 0
+  
+    while (true) {
+      yield index += 500
+    }
+  }
 
+export default class TreeBuilder {
+    /** @type {Map<string, Vertex>} */
+    static allVertices = new Map()
+
+    static gen = infinite()
+
+    constructor() {
         this.treeElements = {
             'anchor' : null,
             'vertices' : [],
@@ -48,7 +55,13 @@ export default class TreeBuilder {
         }
     }
 
-    createElements() {
+    /** @param {Family} data */
+    createElements(data) {
+        /** @type {Array<Person>} */
+        this.parents = data.payload.parents
+        /** @type {Array<Person>} */
+        this.children = data.payload.children
+        
         this.createAnchorPoint()
         this.treeElements.anchor = this.anchorPoint
 
@@ -66,10 +79,14 @@ export default class TreeBuilder {
         return this.treeElements
     }
 
+
+
     createAnchorPoint() {
+        const base = TreeBuilder.gen.next().value
+
         this.anchorPoint = new Point(
             this.canvas.width / 2,
-            this.canvas.height / 2
+            this.canvas.height / 2  + base
         )
     }
 
@@ -77,21 +94,38 @@ export default class TreeBuilder {
         this.father = this.parents.find(el => el.sex === 'male')
         this.mother = this.parents.find(el => el.sex === 'female')
 
-        this.fatherObj = new Vertex(
-            this.anchorPoint.x - this.anchorPoint.radius
-            - this.vertexConfig.defaultWidth - 50,
-            this.anchorPoint.y - this.anchorPoint.radius
-            - this.vertexConfig.defaultHeight - 100,
-            this.father.firstname
-        )
+        if (TreeBuilder.allVertices.has(this.father.uid)) {
+            this.fatherObj = TreeBuilder.allVertices.get(this.father.uid)
+        }
 
-        this.motherObj = new Vertex(
-            this.anchorPoint.x + this.anchorPoint.radius
-            + this.vertexConfig.defaultWidth - 50,
-            this.anchorPoint.y - this.anchorPoint.radius
-            - this.vertexConfig.defaultHeight - 100,
-            this.mother.firstname
-        )
+        else {
+            this.fatherObj = new Vertex(
+                this.anchorPoint.x - this.anchorPoint.radius
+                - this.vertexConfig.defaultWidth - 50,
+                this.anchorPoint.y - this.anchorPoint.radius
+                - this.vertexConfig.defaultHeight - 100,
+                this.father.firstname
+            )
+
+            TreeBuilder.allVertices.set(this.father.uid, this.fatherObj)
+        }
+
+
+        if (TreeBuilder.allVertices.has(this.mother.uid)) {
+            this.motherObj = TreeBuilder.allVertices.get(this.mother.uid)
+        }
+
+        else {
+            this.motherObj = new Vertex(
+                this.anchorPoint.x + this.anchorPoint.radius
+                + this.vertexConfig.defaultWidth - 50,
+                this.anchorPoint.y - this.anchorPoint.radius
+                - this.vertexConfig.defaultHeight - 100,
+                this.mother.firstname
+            )
+    
+            TreeBuilder.allVertices.set(this.mother.uid, this.motherObj)    
+        }
     }
 
     createChildren() {
@@ -101,6 +135,16 @@ export default class TreeBuilder {
         const coefficients = generatePattern(childrenNumber)
 
         for (let i = 0; i < childrenNumber; i++) {
+            if (TreeBuilder.allVertices.has(this.children[i].uid)) {
+                this.childrenObj.push(
+                    TreeBuilder.allVertices.get(
+                        this.children[i].uid
+                    )
+                )
+
+                continue
+            }
+
             let specificCoordinateXValue = 0
 
             const multiplier = coefficients[i]
@@ -125,8 +169,9 @@ export default class TreeBuilder {
                 + this.vertexConfig.defaultHeight + 100,
                 this.children[i].firstname
             )
-
+            
             this.childrenObj.push(childObj)
+            TreeBuilder.allVertices.set(this.children[i].uid, childObj)
         }
     }
 
@@ -138,7 +183,8 @@ export default class TreeBuilder {
 
         this.edgesObj.push(fatherEdge, motherEdge)
 
-        this.childrenObj.forEach((child) => {
+        this.childrenObj.forEach(
+            (child) => {
             const edge = new Edge(child, this.anchorPoint, false)
             this.edgesObj.push(edge)
         })
