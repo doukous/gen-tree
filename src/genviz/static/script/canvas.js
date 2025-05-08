@@ -7,7 +7,7 @@ new GenealogicalTree(canvas)
 
 const url = new URL("api/families", "http://127.0.0.1:8000")
 const req = new Request(url)
-const f = new FamilyTree()
+const family = new FamilyTree()
 
 async function displayTree() {
     try {
@@ -17,12 +17,9 @@ async function displayTree() {
         }
   
         const data = await response.json()
+        // family.build(data[0])
 
-        // f.build(data[0])
-
-        for (const d of data) {
-            f.build(d)
-        }
+        FamilyTree.buildMany(data)
 
         GenealogicalTree.draw()
         monitorInteraction()

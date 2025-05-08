@@ -19,8 +19,8 @@ export default class FamilyTree {
         this.builder = new TreeBuilder()
     }
 
-    build(data) {
-        this.data = data
+    build(family) {
+        this.data = family
         const retrievedObj = this.builder.createElements(this.data)
 
         this.elements.anchor = retrievedObj['anchor']
@@ -28,6 +28,13 @@ export default class FamilyTree {
         this.elements.edges = retrievedObj['edges']
 
         GenealogicalTree.registerTree(this)
+    }
+
+    static buildMany(families) {
+        for (const family of families) {
+            const familyObject = new FamilyTree()
+            familyObject.build(family)
+        }
     }
 
     reset() {

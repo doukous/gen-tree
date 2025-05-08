@@ -79,14 +79,12 @@ export default class TreeBuilder {
         return this.treeElements
     }
 
-
-
     createAnchorPoint() {
         const base = TreeBuilder.gen.next().value
 
         this.anchorPoint = new Point(
             this.canvas.width / 2,
-            this.canvas.height / 2  + base
+            this.canvas.height / 2 + base
         )
     }
 

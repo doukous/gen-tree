@@ -44,7 +44,7 @@ export default class GenealogicalTree {
     static set baseOffset(values) {
         GenealogicalTree.baseOffset = values
     }
-    
+
     /** @param {boolean} value */
     static set isPanMode(value) {
         GenealogicalTree.isPanMode = value

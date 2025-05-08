@@ -10,13 +10,12 @@ export class Point extends GraphicalElement {
      * 
      * @param {number} x - the X coordinate
      * @param {number} y - the Y coordinate
+     * 
      */
     constructor(x, y) {
         super()
 
-        /**
-         * @type {Array<Vertex>} - a list of vertexConfig linked to the point
-         */
+        /** @type {Array<Vertex>} - a list of vertexConfig linked to the point */
         this.LinkedVertex = []
 
         this._x = x
