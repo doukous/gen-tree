@@ -1,32 +1,6 @@
 from datetime import date
 from django import forms
-from genviz.models import Person
 
-
-class PersonChoices:
-    @property
-    def men_choices(self):
-        men = {('', 'Choose a partner')}
-        men.update(
-            {
-                (person.uid, person.firstname) 
-                for person in Person.nodes.filter(sex='male').all()
-            }
-        )
-        return men
-
-    @property
-    def women_choices(self):
-        women = {('', 'Choose a partner')}
-        women.update(
-            {
-                (person.uid, person.firstname) 
-                for person in Person.nodes.filter(sex='female').all()
-            }
-        )
-        return women
-
-person_choice = PersonChoices()
 
 class PersonForm(forms.Form):
     firstname = forms.CharField(required=False)
@@ -84,19 +58,16 @@ class FamilyForm(forms.Form):
 
     family_name = forms.CharField()
 
+
     male_partner_choice = forms.ChoiceField(
-        choices=person_choice.men_choices, 
         required=False    
     )
 
     female_partner_choice = forms.ChoiceField(
-        choices=person_choice.women_choices, 
         required=False
     )
 
     all_people = {} 
-    all_people.update(person_choice.men_choices)
-    all_people.update(person_choice.women_choices)
 
     children_choices = forms.MultipleChoiceField(
         choices=all_people, 

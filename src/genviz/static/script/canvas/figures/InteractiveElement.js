@@ -1,8 +1,7 @@
-import {GraphicalElement} from "./GraphicalElement.js";
-
+import { GraphicalElement } from "./GraphicalElement.js";
 
 export class InteractiveElement extends GraphicalElement {
-    constructor(x, y) {
-        super();
-    }
+  constructor(x, y) {
+    super();
+  }
 }
