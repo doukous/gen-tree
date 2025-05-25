@@ -26,7 +26,7 @@ function* infinite() {
   let index = 0;
 
   while (true) {
-    yield (index += 500);
+    yield (index += 200);
   }
 }
 
@@ -37,10 +37,18 @@ export default class TreeBuilder {
   static gen = infinite();
 
   constructor() {
+    this.boundaries = {
+      startingX: 0,
+      endingX: 0,
+      startingY: 0,
+      endingY: 0
+    };
+
     this.treeElements = {
       anchor: null,
       vertices: [],
       edges: [],
+      boundaries: this.boundaries
     };
 
     this.canvas = {
@@ -52,6 +60,35 @@ export default class TreeBuilder {
       defaultWidth: 100,
       defaultHeight: 80,
     };
+  }
+
+  buildRectangleBoundaries() {
+    const vertices = [this.fatherObj, this.motherObj, ...this.childrenObj];
+
+    this.boundaries.startingX = vertices[0].x;
+    this.boundaries.startingY = vertices[0].y;
+
+    this.boundaries.endingX = vertices[0].x + vertices[0].width;
+    this.boundaries.endingY = vertices[0].y + vertices[0].height;
+
+    vertices.forEach(el => {
+
+      if(this.boundaries.startingX > el.x) {
+        this.boundaries.startingX = el.x;
+      }
+
+      if(el.x + el.width > this.boundaries.endingX) {
+        this.boundaries.endingX = el.x + el.width;
+      }
+
+      if(this.boundaries.startingY > el.y) {
+        this.boundaries.startingY = el.y;
+      }
+
+      if(el.y + el.height > this.boundaries.endingY) {
+        this.boundaries.endingY = el.y + el.height;
+      }
+    });
   }
 
   /** @param {Family} data */
@@ -75,6 +112,8 @@ export default class TreeBuilder {
 
     this.createEdges();
     this.treeElements["edges"].push(...this.edgesObj);
+
+    this.buildRectangleBoundaries();
 
     return this.treeElements;
   }

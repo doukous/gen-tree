@@ -26,6 +26,7 @@ export default class FamilyTree {
     this.elements.anchor = retrievedObj["anchor"];
     this.elements.vertices = retrievedObj["vertices"];
     this.elements.edges = retrievedObj["edges"];
+    this.elements.boundaries = retrievedObj["boundaries"];
 
     GenealogicalTree.registerTree(this);
   }
@@ -53,5 +54,12 @@ export default class FamilyTree {
     otherElements.forEach((element) => {
       element.draw(context);
     });
+
+    GenealogicalTree.context.strokeRect(
+      this.elements.boundaries.startingX,
+      this.elements.boundaries.startingY,
+      this.elements.boundaries.endingX - this.elements.boundaries.startingX,
+      this.elements.boundaries.endingY - this.elements.boundaries.startingY
+    );
   }
 }
