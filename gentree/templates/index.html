@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 
-{% load static %}
-
 {% block title %}Genealogical Tree{% endblock %}
 
 {% block additional_headers %}
-    <script type="module" src= "{% static 'script/canvas.js' %}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='script/canvas.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
@@ -17,7 +15,6 @@
                 @click="$store.form.open()"
                 id="add-btn"
                 type="button"
-                hx-get="{% url "new-family" %}"
                 hx-swap="beforeend"
                 hx-target="#main"
             >add</button>

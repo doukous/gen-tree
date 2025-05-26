@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='/style/tailwind/output.css') }}">
+        <script type="module" src="{{ url_for('static', filename='/script/alpineController.js') }} " defer></script>
+        <script src="{{ url_for('static', filename='/script/external_packages/alpinejs.min.js') }}" defer></script>
+        <script src="{{ url_for('static', filename='/script/external_packages/htmx.min.js') }}" defer></script>
+        {% block additional_headers %}{% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>

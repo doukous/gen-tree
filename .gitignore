@@ -3,7 +3,6 @@ __pycache__
 .venv
 .env
 .vscode
-src/db.sqlite3
 uv.lock
 docker-compose.yml
-src/genviz/static/style/tailwind
+instance
