@@ -1,11 +1,12 @@
 from flask import Blueprint
-from gentree.utils import get_driver
+from gentree.utils import get_driver, login_required
 
 
 bp = Blueprint('api', __name__, url_prefix='/api')
 
 
-@bp.route('families', methods=['GET'])
+@bp.route('/families', methods=['GET'])
+@login_required
 def get_family_members():
     driver = get_driver()
 
@@ -22,6 +23,7 @@ def get_family_members():
     return data
 
 
-@bp.route('genealogical-trees', methods=['GET'])
+@bp.route('/genealogical-trees', methods=['GET'])
+@login_required
 def get_genealogical_trees():
     pass

@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import redirect, request, url_for
+from flask import redirect, request, session, url_for
 import os
 from flask import g
 from neo4j import GraphDatabase
@@ -8,7 +8,7 @@ from neo4j import GraphDatabase
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if True:
+        if not g.username:
             return redirect(url_for('auth.login', next=request.url))
         return f(*args, **kwargs)
     return decorated_function

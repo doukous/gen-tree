@@ -3,7 +3,18 @@
 {% block title %}Login page{% endblock %}
 
 {% block body%}
-    <div id="login">
+    <div id="main">
         You are in the log-in page.
+
+        <form action="{{ url_for('auth.login') }}" method="post">
+            <fieldset class="fieldset">
+                <legend class="fieldset-legend">username</legend>
+
+                <label class="fieldset-label" for="username">Enter the username :</label>
+                <input class="input" type="text" name="username" id="username">
+            </fieldset>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
 {% endblock %}
