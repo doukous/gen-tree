@@ -4,7 +4,24 @@
 
 {% block body %}
     <div id="main" x-data>
-        Hello, {{ username }}
+        Hello, {{ firstname }}
+
+        {% if gentrees %}
+            {% for gentree in gentrees %}
+                <div class="card w-96 bg-base-100 card-lg shadow-sm">
+                    <h1>Here are the genealogical trees you created so far</h1>
+
+                    <div class="card-body">
+                        <h2 class="card-title">{{ gentree.title }}</h1>
+                        <div class="card-actions justify-center">
+                            <a href="{{ url_for('user.home') }}" class="btn">Display</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h1>No genealogical tree created for now</h1>
+        {% endif %}
 
         <a href="{{ url_for('auth.logout') }}" class="btn btn primary">logout</a>
     </div>

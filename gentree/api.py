@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from gentree.utils import get_driver, login_required
 
 
@@ -20,10 +20,10 @@ def get_family_members():
 
     data = [record.data() for record in records]
 
-    return data
+    return jsonify(data)
 
 
 @bp.route('/genealogical-trees', methods=['GET'])
 @login_required
-def get_genealogical_trees():
+def get_genealogical_tree():
     pass
