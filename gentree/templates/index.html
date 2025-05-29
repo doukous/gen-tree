@@ -4,17 +4,28 @@
 
 {% block body %}
     <div id="main" x-data>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        
         Hello, {{ firstname }}
 
         {% if gentrees %}
             {% for gentree in gentrees %}
                 <div class="card w-96 bg-base-100 card-lg shadow-sm">
+                    
                     <h1>Here are the genealogical trees you created so far</h1>
 
                     <div class="card-body">
                         <h2 class="card-title">{{ gentree.title }}</h1>
                         <div class="card-actions justify-center">
-                            <a href="{{ url_for('user.home') }}" class="btn">Display</a>
+                            <a href="{{ url_for('gentree.get_tree', gentree_id=gentree.id) }}" class="btn">Display</a>
                         </div>
                     </div>
                 </div>

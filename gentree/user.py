@@ -1,38 +1,41 @@
-from flask import Blueprint, g, render_template, session
-from gentree.utils import get_driver, login_required
+import pprint
+from flask import Blueprint, g, render_template
+import neo4j
+from gentree.utils import get_driver, login_required, load_logged_user
 
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
-@bp.before_request
-def load_logged_user():
-    user_id = session.get('user_id')
-    if user_id is not None:
-        g.user_id = user_id
-    else:
-        g.user_id = None
+bp.before_request(load_logged_user)
 
-@bp.route("/", methods=['GET'])
+@bp.route('/', methods=['GET'])
 @login_required
 def home():
     user_id = g.user_id
     driver = get_driver()
 
-    records, _, _ = driver.execute_query(
+    result = driver.execute_query(
         """
-        MATCH (p: Person {uid: $uid})
-        MATCH (p) -[:HAS_ACCESS_TO]-> (g: GenealogicalTree)
-        RETURN p.firstname AS firstname, g.uid AS uid, g.title AS title
+        MATCH (p: Person { uid: $uid })
+        CALL (p) {
+            MATCH (p)-[:HAS_ACCESS_TO]->(g: GenealogicalTree)
+            RETURN collect({
+                id: g.uid,
+                title: g.title
+            }) AS gentrees            
+        }
+        RETURN p.firstname AS firstname, p.uid AS id, gentrees
         """,
         database_='gentree',
+        result_transformer_=neo4j.Result.single,
         uid=user_id
     )
 
-    user_firstname = records[0]['firstname']
+    user_firstname = result['firstname']
 
-    user_gen_trees = [
-        {'id': record['uid'], 'title': record['title']} 
-        for record in records
+    user_gentrees = [
+        {'id': gentree['id'], 'title': gentree['title']} 
+        for gentree in result['gentrees']
     ]
 
-    return render_template('index.html', firstname=user_firstname, gentrees=user_gen_trees)
+    return render_template('index.html', firstname=user_firstname, gentrees=user_gentrees)

@@ -9,5 +9,6 @@ dependencies = [
     "flask-wtf>=1.2.2",
     "livereload>=2.7.1",
     "neo4j>=5.28.1",
+    "pydantic>=2.11.5",
     "python-dotenv>=1.1.0",
 ]

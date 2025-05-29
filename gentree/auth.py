@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired
 from gentree.utils import get_driver
 
 
-bp = Blueprint('auth', __name__, url_prefix="/auth")
+bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
 class LoginForm(FlaskForm):
@@ -35,9 +35,9 @@ def login():
             )
    
             if user is None:
-                error = "The entered email is incorrect."
+                error = 'The entered email is incorrect.'
             elif not check_password_hash(user['password'], form.password.data):
-                error = "The entered password is incorrect."
+                error = 'The entered password is incorrect.'
 
             if error is None:
                 session.clear()

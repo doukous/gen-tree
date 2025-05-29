@@ -94,9 +94,9 @@ export default class TreeBuilder {
   /** @param {Family} data */
   createElements(data) {
     /** @type {Array<Person>} */
-    this.parents = data.payload.parents;
+    this.parents = data.partners;
     /** @type {Array<Person>} */
-    this.children = data.payload.children;
+    this.children = data.children;
 
     this.createAnchorPoint();
     this.treeElements.anchor = this.anchorPoint;
@@ -131,8 +131,8 @@ export default class TreeBuilder {
     this.father = this.parents.find((el) => el.sex === "male");
     this.mother = this.parents.find((el) => el.sex === "female");
 
-    if (TreeBuilder.allVertices.has(this.father.uid)) {
-      this.fatherObj = TreeBuilder.allVertices.get(this.father.uid);
+    if (TreeBuilder.allVertices.has(this.father.id)) {
+      this.fatherObj = TreeBuilder.allVertices.get(this.father.id);
     } else {
       this.fatherObj = new Vertex(
         this.anchorPoint.x -
@@ -146,11 +146,11 @@ export default class TreeBuilder {
         this.father.firstname
       );
 
-      TreeBuilder.allVertices.set(this.father.uid, this.fatherObj);
+      TreeBuilder.allVertices.set(this.father.id, this.fatherObj);
     }
 
-    if (TreeBuilder.allVertices.has(this.mother.uid)) {
-      this.motherObj = TreeBuilder.allVertices.get(this.mother.uid);
+    if (TreeBuilder.allVertices.has(this.mother.id)) {
+      this.motherObj = TreeBuilder.allVertices.get(this.mother.id);
     } else {
       this.motherObj = new Vertex(
         this.anchorPoint.x +
@@ -164,7 +164,7 @@ export default class TreeBuilder {
         this.mother.firstname
       );
 
-      TreeBuilder.allVertices.set(this.mother.uid, this.motherObj);
+      TreeBuilder.allVertices.set(this.mother.id, this.motherObj);
     }
   }
 
@@ -175,9 +175,9 @@ export default class TreeBuilder {
     const coefficients = generatePattern(childrenNumber);
 
     for (let i = 0; i < childrenNumber; i++) {
-      if (TreeBuilder.allVertices.has(this.children[i].uid)) {
+      if (TreeBuilder.allVertices.has(this.children[i].id)) {
         this.childrenObj.push(
-          TreeBuilder.allVertices.get(this.children[i].uid)
+          TreeBuilder.allVertices.get(this.children[i].id)
         );
 
         continue;
@@ -209,7 +209,7 @@ export default class TreeBuilder {
       );
 
       this.childrenObj.push(childObj);
-      TreeBuilder.allVertices.set(this.children[i].uid, childObj);
+      TreeBuilder.allVertices.set(this.children[i].id, childObj);
     }
   }
 

@@ -5,7 +5,10 @@ import { monitorInteraction } from "./Interactions.js";
 const canvas = document.querySelector("canvas");
 new GenealogicalTree(canvas);
 
-const url = new URL("api/families", "http://127.0.0.1:8000");
+const url = new URL(
+  location.pathname + 'api',
+  "http://127.0.0.1:5000"
+);
 const req = new Request(url);
 const family = new FamilyTree();
 
@@ -19,7 +22,7 @@ async function displayTree() {
 
     const data = await response.json();
 
-    FamilyTree.buildMany(data);
+    family.build(data);
 
     GenealogicalTree.draw();
     monitorInteraction();

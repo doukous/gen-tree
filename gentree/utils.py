@@ -1,14 +1,14 @@
 from functools import wraps
-from flask import redirect, request, session, url_for
+from flask import redirect, request, url_for
 import os
-from flask import g
+from flask import g, session
 from neo4j import GraphDatabase
 
 
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not g.user_id:
+        if g.user_id is None:
             return redirect(url_for('auth.login', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
@@ -25,3 +25,10 @@ def get_driver():
         g.driver = driver
 
     return g.driver
+
+def load_logged_user():
+    user_id = session.get('user_id')
+    if user_id is not None:
+        g.user_id = user_id
+    else:
+        g.user_id = None
