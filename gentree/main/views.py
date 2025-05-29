@@ -4,9 +4,9 @@ from gentree.utils import get_driver, login_required
 from . import main
 
 
-@main.route('/', methods=['GET'])
+@main.route('/user/', methods=['GET'])
 @login_required
-def home():
+def user_home():
     user_id = g.user_id
     driver = get_driver()
 

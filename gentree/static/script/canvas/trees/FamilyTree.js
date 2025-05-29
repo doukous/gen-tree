@@ -31,13 +31,6 @@ export default class FamilyTree {
     GenealogicalTree.registerTree(this);
   }
 
-  static buildMany(families) {
-    for (const family of families) {
-      const familyObject = new FamilyTree();
-      familyObject.build(family);
-    }
-  }
-
   reset() {
     this.elements.vertices.forEach((el) => el.reset());
   }
