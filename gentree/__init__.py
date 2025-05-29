@@ -26,13 +26,13 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from . import user
-    app.register_blueprint(user.bp)
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint, url_prefix='/')
 
-    from . import auth
-    app.register_blueprint(auth.bp)
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
 
-    from . import gentree
-    app.register_blueprint(gentree.bp)
+    from .gentree_viz import genviz as gentree_viz_blueprint
+    app.register_blueprint(gentree_viz_blueprint)
 
     return app

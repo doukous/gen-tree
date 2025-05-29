@@ -1,17 +1,10 @@
-from flask import Blueprint, flash, g, redirect, render_template
+from flask import flash, g, redirect, render_template
 import neo4j
-from gentree.utils import get_driver, login_required, load_logged_user
+from gentree.utils import get_driver, login_required
+from . import genviz
 
 
-bp = Blueprint('gentree', __name__, url_prefix='/gen-tree')
-
-from . import api
-bp.register_blueprint(api.bp)
-
-bp.before_request(load_logged_user)
-
-
-@bp.route('/<uuid:gentree_id>/', methods=['GET'])
+@genviz.route('/<uuid:gentree_id>/', methods=['GET'])
 @login_required
 def get_tree(gentree_id):
     driver = get_driver()
@@ -33,4 +26,4 @@ def get_tree(gentree_id):
         return redirect('user.home')
 
     else:
-        return render_template('gentree.html', status=access_right['status'])
+        return render_template('gentree_viz/index.html', status=access_right['status'])

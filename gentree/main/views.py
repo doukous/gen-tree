@@ -1,14 +1,10 @@
-import pprint
-from flask import Blueprint, g, render_template
+from flask import g, render_template
 import neo4j
-from gentree.utils import get_driver, login_required, load_logged_user
+from gentree.utils import get_driver, login_required
+from . import main
 
 
-bp = Blueprint('user', __name__, url_prefix='/user')
-
-bp.before_request(load_logged_user)
-
-@bp.route('/', methods=['GET'])
+@main.route('/', methods=['GET'])
 @login_required
 def home():
     user_id = g.user_id
@@ -38,4 +34,4 @@ def home():
         for gentree in result['gentrees']
     ]
 
-    return render_template('index.html', firstname=user_firstname, gentrees=user_gentrees)
+    return render_template('main/index.html', firstname=user_firstname, gentrees=user_gentrees)

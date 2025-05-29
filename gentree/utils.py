@@ -26,6 +26,7 @@ def get_driver():
 
     return g.driver
 
+
 def load_logged_user():
     user_id = session.get('user_id')
     if user_id is not None:

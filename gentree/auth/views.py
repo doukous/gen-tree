@@ -1,21 +1,12 @@
-from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
-from flask_wtf import FlaskForm
+from flask import flash, redirect, render_template, request, session, url_for
 import neo4j
 from werkzeug.security import check_password_hash
-from wtforms import PasswordField, StringField
-from wtforms.validators import DataRequired
 from gentree.utils import get_driver
+from .forms import LoginForm
+from . import auth
 
 
-bp = Blueprint('auth', __name__, url_prefix='/auth')
-
-
-class LoginForm(FlaskForm):
-    email = StringField('email', validators=[DataRequired()])
-    password = PasswordField('password', validators=[DataRequired()])
-
-
-@bp.route('/login', methods=['GET', 'POST'])
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     error = None
@@ -53,7 +44,7 @@ def login():
     return render_template('auth/login.html', form=form)
 
 
-@bp.route('/logout', methods=['GET'])
+@auth.route('/logout', methods=['GET'])
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('auth.login'))
