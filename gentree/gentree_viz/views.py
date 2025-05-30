@@ -1,5 +1,6 @@
-from flask import flash, g, redirect, render_template
+from flask import flash, g, redirect, render_template, request
 import neo4j
+from gentree.gentree_viz.forms import FamilyTreeForm
 from gentree.utils import get_driver, login_required
 from . import genviz
 
@@ -12,7 +13,7 @@ def get_tree(gentree_id):
 
     access_right = driver.execute_query(
         """
-        MATCH (: Person { uid: $person_id }) -[r:HAS_ACCESS_TO]-> (: GenealogicalTree { uid: $gentree_id })
+        MATCH (:Person { uid: $person_id }) -[r:HAS_ACCESS_TO]-> (:GenealogicalTree { uid: $gentree_id })
         RETURN r.status AS status
         """,
         database_= 'gentree',
@@ -22,8 +23,18 @@ def get_tree(gentree_id):
     )
 
     if access_right['status'] is None:
-        flash("You don't have access to this Genealogical Tree.", 'access_denial')
+        flash("Cannot load the Genealogical Tree.", 'access_denial')
         return redirect('user.home')
 
     else:
         return render_template('gentree_viz/index.html', status=access_right['status'])
+
+
+@genviz.route('/family-trees', methods=['GET', 'POST'])
+def new_family_tree():
+    if request.method == 'GET':
+        form = FamilyTreeForm()
+        return render_template('gentree_viz/forms/new-family-form.html', form=form)
+
+    else:
+        pass

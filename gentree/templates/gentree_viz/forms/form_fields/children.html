@@ -1,19 +1,11 @@
-{% load widget_tweaks %}
-
-{% for error in form.children.errors %}
-{{ error }}
-{% endfor %}
-
 <div x-data>
     <fieldset class="flex flex-col items-center fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4">
         <legend class="fieldset-legend">Children</legend>
 
         <label class="label">Select children</label>
-        {{ form.children_choices|attr:"class:select select-md h-32" }}
+        {{ form.children_choices(class="select select-md h-32") }}
 
         <span class="divider">or</span>
-
-        {{ form.children.management_form }}
 
         <button 
             type="button" 

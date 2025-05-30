@@ -17,26 +17,25 @@
     {% endif %}
 
     <form 
-        hx-post=""
+        hx-post="{{ url_for('gentree_viz.new_family_tree') }}"
         hx-target="#form-container"
         hx-swap="outerHTML"
         class="flex flex-col items-center gap-y-12"
         >
-        {% csrf_token %}
 
         <fieldset class="fieldset flex flex-col items-center bg-base-200 border-base-300 rounded-box w-sm border p-4">
             <legend class="fieldset-legend ">Family name</legend>
             
             <label class="label" for="id_family_name">Name</label>
-            {{ form.family_name|attr:"class:input"|attr:"placeholder:Enter the name here" }}
+            {{ form.name(class="input", placeholder="Enter the family name") }}
         </fieldset>
 
-        {% include "form_fields/male_partner.html" %}
+        {# {% include "form_fields/male-partner.html" %}
 
-        {% include "form_fields/female_partner.html" %}
+        {% include "form_fields/female-partner.html" %}
 
         {% include "form_fields/children.html" %}
-        
+         #}
         <button 
             type="submit"
             class="btn btn-outline btn-success"

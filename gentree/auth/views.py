@@ -37,7 +37,7 @@ def login():
                 if 'next' in request.args:
                     return redirect(request.args['next'])
                 else:
-                    return redirect(url_for('user.home'))
+                    return redirect(url_for('user.user_home'))
             
             flash(error)
                     
