@@ -13,8 +13,5 @@ class DriverExtension(object):
         )
         self.driver.verify_connectivity()
 
-    def get_driver(self):
-        return self.driver
 
-
-neo4j_driver = DriverExtension()
+db = DriverExtension()

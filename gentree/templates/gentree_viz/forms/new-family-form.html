@@ -17,7 +17,7 @@
     {% endif %}
 
     <form 
-        hx-post="{{ url_for('gentree_viz.new_family_tree') }}"
+        hx-post="{{ url_for('gentree_viz.new_family_tree', gentree_id=gentree_id) }}"
         hx-target="#form-container"
         hx-swap="outerHTML"
         class="flex flex-col items-center gap-y-12"

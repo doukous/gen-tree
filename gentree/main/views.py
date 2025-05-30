@@ -1,7 +1,7 @@
 from flask import g, render_template
 import neo4j
 from gentree.utils import login_required
-from gentree.db import neo4j_driver
+from gentree.db import db
 from . import main
 
 
@@ -9,7 +9,7 @@ from . import main
 @login_required
 def user_home():
     user_id = g.user_id
-    driver = neo4j_driver.get_driver()
+    driver = db.get_driver()
 
     result = driver.execute_query(
         """

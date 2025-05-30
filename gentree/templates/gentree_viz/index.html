@@ -15,7 +15,7 @@
                 @click="$store.form.open()"
                 id="add-btn"
                 type="button"
-                hx-get="{{ url_for('gentree_viz.new_family_tree') }}"
+                hx-get="{{ url_for('gentree_viz.new_family_tree', gentree_id=gentree_id) }}"
                 hx-swap="beforeend"
                 hx-target="#main"
             >add</button>

@@ -3,13 +3,13 @@ import neo4j
 from gentree.gentree_viz.forms import FamilyTreeForm
 from gentree.utils import login_required
 from . import genviz
-from gentree.db import neo4j_driver
+from gentree.db import db
 
 
 @genviz.route('/<uuid:gentree_id>/', methods=['GET'])
 @login_required
 def get_tree(gentree_id):
-    driver = neo4j_driver.get_driver()
+    driver = db.driver
     user_id = g.user_id
 
     access_right = driver.execute_query(
@@ -28,14 +28,14 @@ def get_tree(gentree_id):
         return redirect('user.home')
 
     else:
-        return render_template('gentree_viz/index.html', status=access_right['status'])
+        return render_template('gentree_viz/index.html', gentree_id=gentree_id, status=access_right['status'])
 
 
-@genviz.route('/family-trees', methods=['GET', 'POST'])
-def new_family_tree():
+@genviz.route('/<uuid:gentree_id>/family-trees', methods=['GET', 'POST'])
+def new_family_tree(gentree_id):
     if request.method == 'GET':
         form = FamilyTreeForm()
-        return render_template('gentree_viz/forms/new-family-form.html', form=form)
+        return render_template('gentree_viz/forms/new-family-form.html', gentree_id=gentree_id, form=form)
 
     else:
         pass
