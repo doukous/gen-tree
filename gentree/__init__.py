@@ -1,7 +1,7 @@
 from flask import Flask
 from dotenv import load_dotenv
-from os import makedirs, getenv
-
+from os import getenv
+from .db import neo4j_driver
 
 def create_app(test_config=None):
     load_status = load_dotenv()
@@ -14,17 +14,11 @@ def create_app(test_config=None):
     app = Flask(__name__)    
     app.config.from_mapping(
         SECRET_KEY=SECRET_KEY,
+        URI = getenv('NEO4J_URI'),
+        AUTH = (getenv('NEO4J_AUTH_USERNAME'), getenv('NEO4J_AUTH_PASSWORD')),
     )
 
-    if test_config:
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        app.config.from_mapping(test_config)
-
-    try:
-        makedirs(app.instance_path)
-    except OSError:
-        pass
+    neo4j_driver.init_app(app)
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint, url_prefix='/')

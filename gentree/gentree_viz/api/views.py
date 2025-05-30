@@ -1,6 +1,7 @@
 from flask import jsonify, g
 import neo4j
-from gentree.utils import get_driver, login_required
+from gentree.utils import login_required
+from gentree.db import neo4j_driver
 from .schemas import FamilyTree
 from . import api
 
@@ -16,7 +17,7 @@ def get_gentree_id(_, values):
 @login_required
 def get_family_tree():
     family_data = {}
-    driver = get_driver()
+    driver = neo4j_driver.get_driver()
 
     if g.family_tree_id is None:
         result = driver.execute_query(

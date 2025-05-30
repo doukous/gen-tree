@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import FormField, StringField, DateField, SelectField
 from wtforms.validators import DataRequired
-from gentree.utils import get_driver
 
 
 class PersonForm(FlaskForm):

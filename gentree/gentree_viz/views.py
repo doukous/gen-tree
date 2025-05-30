@@ -1,14 +1,15 @@
 from flask import flash, g, redirect, render_template, request
 import neo4j
 from gentree.gentree_viz.forms import FamilyTreeForm
-from gentree.utils import get_driver, login_required
+from gentree.utils import login_required
 from . import genviz
+from gentree.db import neo4j_driver
 
 
 @genviz.route('/<uuid:gentree_id>/', methods=['GET'])
 @login_required
 def get_tree(gentree_id):
-    driver = get_driver()
+    driver = neo4j_driver.get_driver()
     user_id = g.user_id
 
     access_right = driver.execute_query(

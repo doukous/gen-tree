@@ -1,7 +1,7 @@
 from flask import flash, redirect, render_template, request, session, url_for
 import neo4j
 from werkzeug.security import check_password_hash
-from gentree.utils import get_driver
+from gentree.db import neo4j_driver
 from .forms import LoginForm
 from . import auth
 
@@ -13,7 +13,7 @@ def login():
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            driver = get_driver()
+            driver = neo4j_driver.get_driver()
 
             user = driver.execute_query(
                 """
