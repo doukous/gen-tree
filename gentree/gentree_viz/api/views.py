@@ -17,7 +17,7 @@ def get_gentree_id(_, values):
 @login_required
 def get_family_tree():
     family_data = {}
-    driver = db.get_driver()
+    driver = db.driver
 
     if g.family_tree_id is None:
         result = driver.execute_query(

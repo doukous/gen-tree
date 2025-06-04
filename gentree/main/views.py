@@ -9,8 +9,7 @@ from . import main
 @login_required
 def user_home():
     user_id = g.user_id
-    driver = db.get_driver()
-
+    driver = db.driver
     result = driver.execute_query(
         """
         MATCH (p: Person { uid: $uid })
