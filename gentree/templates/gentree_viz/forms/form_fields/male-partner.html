@@ -1,5 +1,3 @@
-{% load widget_tweaks %}
-
 <fieldset 
     class="flex flex-col items-center fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4"
     x-data="newPartner('male')" 
@@ -7,8 +5,22 @@
 >
     <legend class="fieldset-legend">Male partner</legend>
 
-    <label class="label">Select a partner</label>
-    {{ form.male_partner_choice|attr:"class:select select-md" }}
+    {{ form.male_existing_choices.label(class='fieldset-label') }}
+    
+    <select 
+        name="{{ form.male_existing_choices.name }}" 
+        id="{{ form.male_existing_choices.id }}"
+        class="select select-md"
+    >
+        <option value="">Please select an option</option>
+        {% for group, options in form.male_existing_choices.choices.items() %}
+                <optgroup label="{{ group }}">
+                    {% for value, label in options %}
+                        <option value="{{ value }}">{{ label }}</option>        
+                    {% endfor %}
+                </optgroup>
+        {% endfor %}
+    </select>
 
     <span class="divider">or</span>
 
@@ -17,16 +29,36 @@
 
 <template id="new-male-partner">
     <fieldset 
-        class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4" 
+        class="fieldset bg-gray-200 border-base-300 rounded-box w-xs border p-4" 
         style="border=1px solid"
     >
         <legend class="fieldset-legend">New male partner</legend>
 
-        <label class="label">Firstname</label>
-        {{ form.new_male_partner.firstname|attr:"class:input" }}
+        <label 
+            for="{{ form.new_male_partner.firstname.id }}"
+            class="fieldset-label"
+        >
+            {{ form.new_male_partner.firstname.label }}
+        </label>
+        <input 
+            name="{{ form.new_male_partner.firstname.name }}" 
+            type="text" 
+            class="input"
+            id="{{ form.new_male_partner.firstname.id }}"
+        >
 
-        <label class="label">Birth date</label>
-        {{ form.new_male_partner.birth_date|attr:"class:input"|attr:"type:date" }}
+        <label 
+            for="{{ form.new_male_partner.birth_date.id }}"
+            class="fieldset-label"
+        >
+            {{ form.new_male_partner.birth_date.label }}
+        </label>
+        <input 
+            name="{{ form.new_male_partner.birth_date.name }}" 
+            type="date" 
+            class="input"
+            id="{{ form.new_male_partner.birth_date.id }}"
+        >
 
         <button type="button" @click="handleDisplay" class="btn btn-primary">cancel</button>
     </fieldset>
