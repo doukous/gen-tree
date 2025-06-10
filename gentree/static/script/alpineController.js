@@ -69,7 +69,7 @@ document.addEventListener("alpine:init", () => {
 
   Alpine.store("newChildren", {
     formNumber: 0,
-    formNumberEl: document.getElementById("id_new_children-TOTAL_FORMS"),
+    rendered:false,
 
     add(evt) {
       const template = document
@@ -80,14 +80,12 @@ document.addEventListener("alpine:init", () => {
         template,
         document.getElementById("add-children-btn")
       );
-      document
-        .getElementById("id_new_children-TOTAL_FORMS")
-        .setAttribute("value", ++this.formNumber);
+      this.formNumber++;
     },
 
     cancel(evt) {
       evt.target.parentNode.remove(evt.target);
-      formNumberEl.setAttribute("value", --this.formNumber);
+      this.formNumber--;
     },
   });
 });
