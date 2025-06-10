@@ -22,24 +22,25 @@
         hx-swap="outerHTML"
         class="flex flex-col items-center gap-y-12"
         >
-
-        <fieldset class="fieldset flex flex-col items-center bg-base-200 border-base-300 rounded-box w-sm border p-4">
-            <legend class="fieldset-legend ">Family name</legend>
+            {{ form.hidden_tag() }}
             
-            <label class="label" for="id_family_name">Name</label>
-            {{ form.name(class="input", placeholder="Enter the family name") }}
-        </fieldset>
+            <fieldset class="fieldset flex flex-col items-center bg-base-200 border-base-300 rounded-box w-sm border p-4">
+                <legend class="fieldset-legend ">Family name</legend>
+                
+                <label class="label" for="id_family_name">Name</label>
+                {{ form.name(class="input", placeholder="Enter the family name") }}
+            </fieldset>
 
-        {% include "gentree_viz/forms/form_fields/male-partner.html" %}
+            {% include "gentree_viz/forms/form_fields/children.html" %}
 
-        {% include "gentree_viz/forms/form_fields/female-partner.html" %}
+            {% include "gentree_viz/forms/form_fields/male-partner.html" %}
 
-        {# {% include "gentree_viz/forms/form_fields/children.html" %} #}
-        
-        <button 
-            type="submit"
-            class="btn btn-outline btn-success"
-        >Create family</button>
+            {% include "gentree_viz/forms/form_fields/female-partner.html" %}
+            
+            <button 
+                type="submit"
+                class="btn btn-outline btn-success"
+            >Create family</button>
     </form>
 </div>
 {% endblock  %}
