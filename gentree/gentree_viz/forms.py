@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import FormField, StringField, DateField, SelectField
+from wtforms import FieldList, FormField, SelectMultipleField, StringField, DateField, SelectField
 from wtforms.validators import DataRequired
+from wtforms import Form
 from gentree.db import db
 from gentree.gentree_viz.schemas import FamilyChoice
 
@@ -9,7 +10,6 @@ class Choices:
     @classmethod
     def get_people_choices(cls, gentree_id, sex=None):
         driver = db.driver
-
         results = None
 
         if sex:
@@ -49,21 +49,21 @@ class Choices:
                 uid=str(gentree_id)
             )
 
-        results = [
+        data = [
             FamilyChoice.model_validate(result.data()) 
             for result in results
         ]
 
         choices = {}
 
-        for result in results:
+        for result in data:
             (key, value), = result.model_dump().items()
             choices[key] = value
         
         return choices
     
 
-class PersonForm(FlaskForm):
+class PersonForm(Form):
     firstname = StringField('Firstname')
     birth_date = DateField('Birth date')
 
@@ -74,8 +74,6 @@ class ChildrenForm(PersonForm):
 
 
 class PartnerForm(PersonForm):
-    driver = db.driver
-
     family_choice = SelectField('Family choice')
     partner_choice = SelectField('Choosen partner', choices=[])  
 
@@ -85,6 +83,8 @@ class FamilyTreeForm(FlaskForm):
     
     male_existing_choices = SelectField('Choices')
     female_existing_choices = SelectField('Choices')
+    children_choices = SelectMultipleField('Choices')
 
     new_male_partner = FormField(PersonForm)
     new_female_partner = FormField(PersonForm)
+    new_children = FieldList(FormField(ChildrenForm))

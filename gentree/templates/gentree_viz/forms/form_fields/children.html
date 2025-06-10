@@ -1,23 +1,35 @@
 <div x-data>
-    <fieldset class="flex flex-col items-center fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4">
+    <fieldset 
+        class="flex flex-col items-center fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4"
+    >
         <legend class="fieldset-legend">Children</legend>
 
-        <label class="label">Select children</label>
-        {{ form.children_choices(class="select select-md h-32") }}
+        {{ form.children_choices.label(class='fieldset-label') }}
+    
+        <select 
+            name="{{ form.children_choices.name }}" 
+            id="{{ form.children_choices.id }}"
+            class="select select-bordered select-md h-full"
+            multiple
+        >
+            <option value="">Please select an option</option>
+
+            {% for group, options in form.children_choices.choices.items() %}
+                    <optgroup label="{{ group }}">
+                        {% for value, label in options %}
+                            <option value="{{ value }}">{{ label }}</option>        
+                        {% endfor %}
+                    </optgroup>
+            {% endfor %}
+        </select>
 
         <span class="divider">or</span>
-
-        <button 
-            type="button" 
-            @click="$store.newChildren.add($event)" 
-            class="btn btn-outline"
-            id="add-children-btn"
-        >Add a new child</button>
+        <button type="button" x-show="! $store.newChildren.rendered" @click="$store.newChildren.add" class="btn btn-outline">Add a new child</button>
     </fieldset>
 </div>
 
 <template id="new-child">
-    <fieldset class="fieldset bg-neutral-200 border-base-300 rounded-box w-xs border p-4">
+    <fieldset class="fieldset bg-stone-100 border-base-300 rounded-box w-xs border p-4">
         <legend class="fieldset-legend">New child</legend>
 
         <label class="label">Firstname</label>

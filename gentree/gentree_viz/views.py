@@ -4,6 +4,7 @@ from gentree.gentree_viz.forms import Choices, FamilyTreeForm
 from gentree.utils import login_required
 from . import genviz
 from gentree.db import db
+from pprint import pprint
 
 
 @genviz.route('/<uuid:gentree_id>/', methods=['GET'])
@@ -32,16 +33,35 @@ def get_tree(gentree_id):
 
 
 @genviz.route('/<uuid:gentree_id>/family-trees', methods=['GET', 'POST'])
+@login_required
 def new_family_tree(gentree_id):
-    if request.method == 'GET':    
-        form = FamilyTreeForm()
+    if request.method == 'GET':
         male_existing_people = Choices.get_people_choices(gentree_id, sex='male')
         women_existing_people = Choices.get_people_choices(gentree_id, sex='female')
-        
+        existing_people = Choices.get_people_choices(gentree_id)
+
+        form = FamilyTreeForm()
+
         form.male_existing_choices.choices = male_existing_people
         form.female_existing_choices.choices = women_existing_people
+        form.children_choices.choices = existing_people
 
         return render_template('gentree_viz/forms/new-family-form.html', gentree_id=gentree_id, form=form)
 
     else:
-        pass
+        male_existing_people = Choices.get_people_choices(gentree_id, sex='male')
+        women_existing_people = Choices.get_people_choices(gentree_id, sex='female')
+        existing_people = Choices.get_people_choices(gentree_id)
+
+        form = FamilyTreeForm(request.form)
+
+        form.male_existing_choices.choices = male_existing_people
+        form.female_existing_choices.choices = women_existing_people
+        form.children_choices.choices = existing_people
+
+        if form.validate():
+            pprint(form.name.data)
+        else:
+            pprint(form.errors)
+
+        return render_template('gentree_viz/forms/form-successfully-created.html')
