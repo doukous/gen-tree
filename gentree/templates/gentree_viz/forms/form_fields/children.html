@@ -12,15 +12,17 @@
             class="select select-bordered select-md h-full"
             multiple
         >
-            <option value="">Please select an option</option>
-
             {% for group, options in form.children_choices.choices.items() %}
+                {% if group == 'default' %}
+                    <option value="">Please select an option</option>        
+                {% else %}
                     <optgroup label="{{ group }}">
                         {% for value, label in options %}
                             <option value="{{ value }}">{{ label }}</option>        
                         {% endfor %}
-                    </optgroup>
-            {% endfor %}
+                    </optgroup>            
+                {% endif %}
+        {% endfor %}
         </select>
 
         <span class="divider">or</span>

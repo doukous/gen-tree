@@ -12,13 +12,16 @@
         id="{{ form.female_existing_choices.id }}"
         class="select select-md"
     >
-        <option value="">Please select an option</option>
         {% for group, options in form.female_existing_choices.choices.items() %}
+            {% if group == 'default' %}
+                <option value="">Please select an option</option>        
+            {% else %}
                 <optgroup label="{{ group }}">
                     {% for value, label in options %}
                         <option value="{{ value }}">{{ label }}</option>        
                     {% endfor %}
-                </optgroup>
+                </optgroup>            
+            {% endif %}
         {% endfor %}
     </select>
 

@@ -54,7 +54,9 @@ class Choices:
             for result in results
         ]
 
-        choices = {}
+        choices = {
+            'default': [('', 'Select an option')],
+        }
 
         for result in data:
             (key, value), = result.model_dump().items()
