@@ -22,18 +22,12 @@ import { Vertex } from "./canvas/figures/Vertex";
  */
 
 /**
- * @typedef {object} payload
- *
- * @property {Array<Person>} parents
- * @property {Array<Person>} children
- */
-
-/**
- * @typedef {object} Family
+ * @typedef {object} FamilyData
  *
  * @property {number} uid
  * @property {String} name
- * @property {payload} payload
+ * @property {Array<Person>} partners
+ * @property {Array<Person>} children
  */
 
 /**
@@ -42,4 +36,9 @@ import { Vertex } from "./canvas/figures/Vertex";
  * @property {Array<Vertex>} vertices
  * @property {Array<Edge>} edges
  * @property {Array<Point>} anchor
+ * 
+ * @property {object} boundaries
+ * @property {Coordinate} boundaries.starting
+ * @property {Coordinate} boundaries.ending
+ * 
  */
