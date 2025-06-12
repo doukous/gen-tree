@@ -11,6 +11,11 @@ export class Vertex extends GraphicalElement {
    */
   static vertices = [];
 
+  static defaultParams = {
+    width: 100,
+    height: 80
+  }
+
   /**
    * The Vertex constructor
    *
@@ -21,7 +26,13 @@ export class Vertex extends GraphicalElement {
    * @param {number} height - the height
    *
    */
-  constructor(x, y, firstname = "", width = 100, height = 80) {
+  constructor(
+    x, 
+    y, 
+    firstname = "", 
+    width = Vertex.defaultParams.width, 
+    height = Vertex.defaultParams.height
+  ) {
     super();
     this.x = x;
     this.y = y;
