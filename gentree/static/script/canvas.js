@@ -10,25 +10,20 @@ const url = new URL(
   "http://127.0.0.1:5000"
 );
 const req = new Request(url);
-const family = new FamilyTree();
 
 async function displayTree() {
-  try {
-    const response = await fetch(req);
+  
+  const response = await fetch(req);
 
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    family.build(data);
-
-    GenealogicalTree.draw();
-    monitorInteraction();
-  } catch (error) {
-    console.error(error.message);
+  if (!response.ok) {
+    throw new Error(`Response status: ${response.status}`);
   }
+
+  const data = await response.json();
+  new FamilyTree(data);
+
+  GenealogicalTree.draw();
+  monitorInteraction();
 }
 
 displayTree();
