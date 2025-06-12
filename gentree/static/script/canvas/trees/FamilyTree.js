@@ -1,33 +1,17 @@
-/** @import {FamilyElements} from "../../types.js" */
+/** @import {FamilyData} from "../../types.js" */
 import TreeBuilder from "./TreeBuilder.js";
 import GenealogicalTree from "./GenealogicalTree.js";
 
 export default class FamilyTree {
-  constructor() {
-    /** @type {FamilyElements} */
-    this.elements = {
-      anchor: null,
-      vertices: [],
-      edges: [],
-    };
-
-    this.reliedTo = {
-      family: null,
-      member: null,
-    };
-
-    this.builder = new TreeBuilder();
+  /** @param {FamilyData} familyData */
+  constructor(familyData) {
+    this.familyData = familyData;
+    this.build();
   }
 
-  build(family) {
-    this.data = family;
-    const retrievedObj = this.builder.createElements(this.data);
-
-    this.elements.anchor = retrievedObj["anchor"];
-    this.elements.vertices = retrievedObj["vertices"];
-    this.elements.edges = retrievedObj["edges"];
-    this.elements.boundaries = retrievedObj["boundaries"];
-
+  build() {
+    const builder = new TreeBuilder(this.familyData)
+    this.elements = builder.createdElements
     GenealogicalTree.registerTree(this);
   }
 
@@ -49,10 +33,22 @@ export default class FamilyTree {
     });
 
     GenealogicalTree.context.strokeRect(
-      this.elements.boundaries.startingX,
-      this.elements.boundaries.startingY,
-      this.elements.boundaries.endingX - this.elements.boundaries.startingX,
-      this.elements.boundaries.endingY - this.elements.boundaries.startingY
+      this.elements.boundaries.starting.x,
+      this.elements.boundaries.starting.y,
+      this.elements.boundaries.ending.x - this.elements.boundaries.starting.x,
+      this.elements.boundaries.ending.y - this.elements.boundaries.starting.y,
+    );
+
+    GenealogicalTree.context.strokeRect(
+      this.elements.boundaries.starting.x * 1.8,
+      this.elements.boundaries.starting.y - 400,
+      400, 400
+    );
+
+    GenealogicalTree.context.strokeRect(
+      this.elements.boundaries.starting.x * 0.5,
+      this.elements.boundaries.starting.y - 400,
+      400, 400
     );
   }
 }

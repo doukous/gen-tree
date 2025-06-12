@@ -1,229 +1,150 @@
-/** @import {Family} from "../../types.js" */
+/** @import {FamilyData, FamilyElements} from "../../types.js" */
 import { Point } from "../figures/Point.js";
 import { Vertex } from "../figures/Vertex.js";
 import { Edge } from "../figures/Edge.js";
-
-function generatePattern(n) {
-  const result = [];
-  const half = Math.floor(n / 2);
-
-  for (let i = -half; i < 0; i++) {
-    result.push(i);
-  }
-
-  if (n % 2 === 1) {
-    result.push(0);
-  }
-
-  for (let i = 1; i <= half; i++) {
-    result.push(i);
-  }
-
-  return result;
-}
-
-function* infinite() {
-  let index = 0;
-
-  while (true) {
-    yield (index += 200);
-  }
-}
+import GenealogicalTree from "./GenealogicalTree.js";
 
 export default class TreeBuilder {
-  /** @type {Map<string, Vertex>} */
-  static allVertices = new Map();
+  static anchorCoordinates = {x: 0, y: 0};
 
-  static gen = infinite();
+  static existingPersonVertices = {};
+  static boundariesList = [];
 
-  constructor() {
-    this.boundaries = {
-      startingX: 0,
-      endingX: 0,
-      startingY: 0,
-      endingY: 0
-    };
+  /** @param {FamilyData} familyData */
+  constructor(familyData) {
+    this.familyData = familyData;
 
-    this.treeElements = {
+    /** @type {FamilyElements} */
+    this.createdElements = {
       anchor: null,
       vertices: [],
       edges: [],
-      boundaries: this.boundaries
+      boundaries: {
+        starting: {x: 0, y: 0},
+        ending: {x: 0, y: 0},
+      }
     };
 
-    this.canvas = {
-      width: document.querySelector("canvas").width,
-      height: document.querySelector("canvas").height,
-    };
-
-    this.vertexConfig = {
-      defaultWidth: 100,
-      defaultHeight: 80,
-    };
+    this.buildElements();
   }
 
-  buildRectangleBoundaries() {
-    const vertices = [this.fatherObj, this.motherObj, ...this.childrenObj];
+  buildElements() {
+    const partners = this.familyData['partners'];
+    const children = this.familyData['children'];
 
-    this.boundaries.startingX = vertices[0].x;
-    this.boundaries.startingY = vertices[0].y;
-
-    this.boundaries.endingX = vertices[0].x + vertices[0].width;
-    this.boundaries.endingY = vertices[0].y + vertices[0].height;
-
-    vertices.forEach(el => {
-
-      if(this.boundaries.startingX > el.x) {
-        this.boundaries.startingX = el.x;
-      }
-
-      if(el.x + el.width > this.boundaries.endingX) {
-        this.boundaries.endingX = el.x + el.width;
-      }
-
-      if(this.boundaries.startingY > el.y) {
-        this.boundaries.startingY = el.y;
-      }
-
-      if(el.y + el.height > this.boundaries.endingY) {
-        this.boundaries.endingY = el.y + el.height;
-      }
-    });
+    this.defineBoundaries(children.length);
+    this.buildAnchorPoint();
+    this.buildPartnersVertices(partners);
+    this.buildChildrenVertices(children);
   }
 
-  /** @param {Family} data */
-  createElements(data) {
-    /** @type {Array<Person>} */
-    this.parents = data.partners;
-    /** @type {Array<Person>} */
-    this.children = data.children;
+  defineBoundaries(childrenLength) {
+    if (TreeBuilder.boundariesList.length === 0) {
+      TreeBuilder.anchorCoordinates = {
+        x: GenealogicalTree.canvas.width / 2,
+        y: GenealogicalTree.canvas.height / 2
+      }
+    }
 
-    this.createAnchorPoint();
-    this.treeElements.anchor = this.anchorPoint;
+    if (childrenLength == 1) {
+      this
+      .createdElements
+      .boundaries
+      .starting
+      .x = TreeBuilder.anchorCoordinates.x + Vertex.defaultParams.width * -1.2 - Vertex.defaultParams.width / 2;
 
-    this.createParents();
-    this.createChildren();
+      this
+      .createdElements
+      .boundaries
+      .ending
+      .x = TreeBuilder.anchorCoordinates.x + Vertex.defaultParams.width * 2.2 - Vertex.defaultParams.width / 2;
+    }
 
-    this.treeElements["vertices"].push(
-      this.fatherObj,
-      this.motherObj,
-      ...this.childrenObj
-    );
+    else {
+      this
+      .createdElements
+      .boundaries
+      .starting
+      .x = TreeBuilder.anchorCoordinates.x - Vertex.defaultParams.width * 2.5 * Math.floor(childrenLength / 2);
 
-    this.createEdges();
-    this.treeElements["edges"].push(...this.edgesObj);
+      this
+      .createdElements
+      .boundaries
+      .ending
+      .x = TreeBuilder.anchorCoordinates.x + Vertex.defaultParams.width * 2.5 * Math.floor(childrenLength / 2);
+    }
 
-    this.buildRectangleBoundaries();
+    this
+    .createdElements
+    .boundaries
+    .starting
+    .y = TreeBuilder.anchorCoordinates.y - 200;
 
-    return this.treeElements;
+    this
+    .createdElements
+    .boundaries
+    .ending
+    .y = TreeBuilder.anchorCoordinates.y + 200 + Vertex.defaultParams.height;
   }
 
-  createAnchorPoint() {
-    const base = TreeBuilder.gen.next().value;
-
+  buildAnchorPoint() {
     this.anchorPoint = new Point(
-      this.canvas.width / 2,
-      this.canvas.height / 2 + base
+      TreeBuilder.anchorCoordinates.x,
+      TreeBuilder.anchorCoordinates.y
     );
+
+    this.createdElements['anchor'] = this.anchorPoint; 
   }
 
-  createParents() {
-    this.father = this.parents.find((el) => el.sex === "male");
-    this.mother = this.parents.find((el) => el.sex === "female");
+  buildPartnersVertices(partners) {
+    const malePartnerData = partners.find((partner) => partner['sex'] == 'male');
+    const femalePartnerData = partners.find((partner) => partner['sex'] == 'female');
 
-    if (TreeBuilder.allVertices.has(this.father.id)) {
-      this.fatherObj = TreeBuilder.allVertices.get(this.father.id);
-    } else {
-      this.fatherObj = new Vertex(
-        this.anchorPoint.x -
-          this.anchorPoint.radius -
-          this.vertexConfig.defaultWidth -
-          50,
-        this.anchorPoint.y -
-          this.anchorPoint.radius -
-          this.vertexConfig.defaultHeight -
-          100,
-        this.father.firstname
+    const malePartnerVertex = new Vertex(
+      TreeBuilder.anchorCoordinates.x - Vertex.defaultParams.width * 1.7,
+      TreeBuilder.anchorCoordinates.y - 200,
+      malePartnerData['firstname']
+    );
+
+    const malePartnerEdge = new Edge(malePartnerVertex, this.anchorPoint, true);
+
+    const femalePartnerVertex = new Vertex(
+      TreeBuilder.anchorCoordinates.x + Vertex.defaultParams.width * 0.7,
+      TreeBuilder.anchorCoordinates.y - 200,
+      femalePartnerData['firstname']
+    );
+
+    const femalePartnerEdge = new Edge(femalePartnerVertex, this.anchorPoint, true);
+
+    this.createdElements['vertices'].push(malePartnerVertex, femalePartnerVertex);
+    this.createdElements['edges'].push(malePartnerEdge, femalePartnerEdge);
+  }
+
+  buildChildrenVertices(children) {
+    const childrenNumber = children.length;
+    const patternList = generateSpacingPattern(childrenNumber);
+
+    for (let index = 0; index < childrenNumber; index++) {
+      const childVertex = new Vertex(
+        TreeBuilder.anchorCoordinates.x + Vertex.defaultParams.width * 2 * (patternList[index] - 1/4),
+        TreeBuilder.anchorCoordinates.y + 200,
+        children[index]['firstname'],
       );
 
-      TreeBuilder.allVertices.set(this.father.id, this.fatherObj);
-    }
-
-    if (TreeBuilder.allVertices.has(this.mother.id)) {
-      this.motherObj = TreeBuilder.allVertices.get(this.mother.id);
-    } else {
-      this.motherObj = new Vertex(
-        this.anchorPoint.x +
-          this.anchorPoint.radius +
-          this.vertexConfig.defaultWidth -
-          50,
-        this.anchorPoint.y -
-          this.anchorPoint.radius -
-          this.vertexConfig.defaultHeight -
-          100,
-        this.mother.firstname
-      );
-
-      TreeBuilder.allVertices.set(this.mother.id, this.motherObj);
+      const childToAnchorEdge = new Edge(childVertex, this.anchorPoint);
+      this.createdElements.vertices.push(childVertex);
+      this.createdElements.edges.push(childToAnchorEdge);
     }
   }
+}
 
-  createChildren() {
-    this.childrenObj = [];
+function generateSpacingPattern(numberOfElements) {
+  const startIndex = Math.floor(numberOfElements / 2);
+  const patternList = [];
 
-    const childrenNumber = this.children.length;
-    const coefficients = generatePattern(childrenNumber);
-
-    for (let i = 0; i < childrenNumber; i++) {
-      if (TreeBuilder.allVertices.has(this.children[i].id)) {
-        this.childrenObj.push(
-          TreeBuilder.allVertices.get(this.children[i].id)
-        );
-
-        continue;
-      }
-
-      let specificCoordinateXValue = 0;
-
-      const multiplier = coefficients[i];
-
-      if (multiplier < 0) {
-        specificCoordinateXValue =
-          multiplier *
-          (this.anchorPoint.radius + this.vertexConfig.defaultWidth + 80);
-      } else if (multiplier === 0) {
-        specificCoordinateXValue = -50;
-      } else {
-        specificCoordinateXValue =
-          multiplier *
-          (this.anchorPoint.radius + this.vertexConfig.defaultWidth + 20);
-      }
-
-      const childObj = new Vertex(
-        this.anchorPoint.x + specificCoordinateXValue,
-        this.anchorPoint.y +
-          this.anchorPoint.radius +
-          this.vertexConfig.defaultHeight +
-          100,
-        this.children[i].firstname
-      );
-
-      this.childrenObj.push(childObj);
-      TreeBuilder.allVertices.set(this.children[i].id, childObj);
-    }
+  for (let i = -startIndex; i <= startIndex; i++) {
+    patternList.push(i);
   }
 
-  createEdges() {
-    this.edgesObj = [];
-
-    const fatherEdge = new Edge(this.fatherObj, this.anchorPoint, true);
-    const motherEdge = new Edge(this.motherObj, this.anchorPoint, true);
-
-    this.edgesObj.push(fatherEdge, motherEdge);
-
-    this.childrenObj.forEach((child) => {
-      const edge = new Edge(child, this.anchorPoint, false);
-      this.edgesObj.push(edge);
-    });
-  }
+  return patternList;
 }
