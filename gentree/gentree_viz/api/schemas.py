@@ -6,6 +6,7 @@ class FamilyMember(BaseModel):
     id: UUID
     firstname: str
     sex: str
+    linked_family_id: UUID | None
 
 
 class FamilyTree(BaseModel):
