@@ -40,31 +40,6 @@ export default class GenealogicalTree {
     }
   }
 
-  /** @param {Coordinate} values */
-  static set baseOffset(values) {
-    GenealogicalTree.baseOffset = values;
-  }
-
-  /** @param {boolean} value */
-  static set isPanMode(value) {
-    GenealogicalTree.isPanMode = value;
-  }
-
-  /** @param {Coordinate} panOffset */
-  static set panOffset(panOffset) {
-    GenealogicalTree.panOffset = panOffset;
-  }
-
-  /** @param {Coordinate} scaleOffset */
-  static set scaledOffset(scaleOffset) {
-    GenealogicalTree.scaledOffset = scaleOffset;
-  }
-
-  /** @param {Coordinate} deltaOffset */
-  static set deltaOffset(deltaOffset) {
-    GenealogicalTree.deltaOffset = deltaOffset;
-  }
-
   static handlePanMoves(mouseX, mouseY) {
     if (GenealogicalTree.isPanMode) {
       GenealogicalTree.deltaOffset = {
