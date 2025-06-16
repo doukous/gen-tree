@@ -38,7 +38,9 @@ import { Vertex } from "./canvas/figures/Vertex";
  * @property {Array<Point>} anchor
  * 
  * @property {object} boundaries
- * @property {Coordinate} boundaries.starting
- * @property {Coordinate} boundaries.ending
+ * @property {number} boundaries.x
+ * @property {number} boundaries.y
+ * @property {number} boundaries.width
+ * @property {number} boundaries.height
  * 
  */
