@@ -1,5 +1,5 @@
 export default class GenealogicalTree {
-  static scale = 0.6;
+  static scale = 0.3;
   static existingTree = null;
   /** @type {FamilyTree[]} */
   static subtreesList = [];
