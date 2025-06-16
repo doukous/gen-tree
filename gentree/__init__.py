@@ -1,8 +1,8 @@
 from flask import Flask
 from os import getenv
-
 from flask_cors import CORS
 from .db import db
+
 
 def create_app(test_config=None):
     if getenv('SERVER_MODE') == 'DEV':
@@ -14,6 +14,7 @@ def create_app(test_config=None):
 
     app = Flask(__name__)
     CORS(app) 
+    
     app.config.from_mapping(
         SECRET_KEY=getenv('SECRET_KEY'),
         URI = getenv('NEO4J_URI'),

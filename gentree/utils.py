@@ -1,6 +1,5 @@
 from functools import wraps
 from flask import redirect, request, url_for
-import os
 from flask import g, session
 
 
