@@ -4,3 +4,4 @@ flask-wtf>=1.2.2
 gunicorn>=23.0.0
 neo4j>=5.28.1
 pydantic>=2.11.5
+whitenoise>=6.9.0
