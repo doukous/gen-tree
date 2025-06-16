@@ -1,22 +1,21 @@
 from flask import Flask
-from dotenv import load_dotenv
 from os import getenv
 
 from flask_cors import CORS
 from .db import db
 
 def create_app(test_config=None):
-    load_status = load_dotenv()
+    if getenv('SERVER_MODE') == 'DEV':
+        from dotenv import load_dotenv
+        load_status = load_dotenv()
 
     if not load_status:
         raise RuntimeError("Failed to load dotenv file.")
 
-    SECRET_KEY = getenv('SECRET_KEY')
-
     app = Flask(__name__)
     CORS(app) 
     app.config.from_mapping(
-        SECRET_KEY=SECRET_KEY,
+        SECRET_KEY=getenv('SECRET_KEY'),
         URI = getenv('NEO4J_URI'),
         AUTH = (getenv('NEO4J_AUTH_USERNAME'), getenv('NEO4J_AUTH_PASSWORD')),
         DATABASE = getenv('NEO4J_DATABASE'),
