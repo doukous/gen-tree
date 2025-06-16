@@ -1,4 +1,4 @@
-/** @import {FamilyData} from "../../types.js" */
+/** @import {Coordinate, FamilyData} from "../../types.js" */
 import TreeBuilder from "./TreeBuilder.js";
 import GenealogicalTree from "./GenealogicalTree.js";
 
@@ -6,12 +6,12 @@ export default class FamilyTree {
   /** @param {FamilyData} familyData */
   constructor(familyData) {
     this.familyData = familyData;
-    this.build();
   }
 
-  build() {
-    const builder = new TreeBuilder(this.familyData)
-    this.elements = builder.createdElements
+  /** @param {Coordinate} startingCoordinate */
+  build(startingCoordinate = null) {
+    const builder = new TreeBuilder(this.familyData, startingCoordinate);
+    this.elements = builder.createdElements;
     GenealogicalTree.registerTree(this);
   }
 
@@ -33,22 +33,10 @@ export default class FamilyTree {
     });
 
     GenealogicalTree.context.strokeRect(
-      this.elements.boundaries.starting.x,
-      this.elements.boundaries.starting.y,
-      this.elements.boundaries.ending.x - this.elements.boundaries.starting.x,
-      this.elements.boundaries.ending.y - this.elements.boundaries.starting.y,
-    );
-
-    GenealogicalTree.context.strokeRect(
-      this.elements.boundaries.starting.x * 1.8,
-      this.elements.boundaries.starting.y - 400,
-      400, 400
-    );
-
-    GenealogicalTree.context.strokeRect(
-      this.elements.boundaries.starting.x * 0.5,
-      this.elements.boundaries.starting.y - 400,
-      400, 400
+      this.elements.boundaries.x,
+      this.elements.boundaries.y,
+      this.elements.boundaries.width,
+      this.elements.boundaries.height,
     );
   }
 }

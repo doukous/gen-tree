@@ -20,9 +20,8 @@ async function displayTree() {
   }
 
   const data = await response.json();
-  new FamilyTree(data);
+  new FamilyTree(data).build();
 
-  GenealogicalTree.draw();
   monitorInteraction();
 }
 
