@@ -1,6 +1,8 @@
 from flask import Flask
 from dotenv import load_dotenv
 from os import getenv
+
+from flask_cors import CORS
 from .db import db
 
 def create_app(test_config=None):
@@ -11,11 +13,13 @@ def create_app(test_config=None):
 
     SECRET_KEY = getenv('SECRET_KEY')
 
-    app = Flask(__name__)    
+    app = Flask(__name__)
+    CORS(app) 
     app.config.from_mapping(
         SECRET_KEY=SECRET_KEY,
         URI = getenv('NEO4J_URI'),
         AUTH = (getenv('NEO4J_AUTH_USERNAME'), getenv('NEO4J_AUTH_PASSWORD')),
+        DATABASE = getenv('NEO4J_DATABASE'),
     )
 
     db.init_app(app)

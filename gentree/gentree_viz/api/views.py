@@ -43,7 +43,6 @@ def get_family_tree():
             }
             RETURN f.name AS family_name, f.uid AS family_id, members
             """,
-            database_='gentree',
             result_transformer_=neo4j.Result.single,
             gentree_uid=str(g.gentree_id)
         )
@@ -72,7 +71,6 @@ def get_family_tree():
             }
             RETURN f.name AS family_name, f.uid AS family_id, members
             """,
-            database_='gentree',
             result_transformer_=neo4j.Result.single,
             gentree_uid=str(g.gentree_id),
             family_uid=str(g.family_tree_id).replace('-', '')

@@ -22,7 +22,6 @@ def user_home():
         }
         RETURN p.firstname AS firstname, p.uid AS id, gentrees
         """,
-        database_='gentree',
         result_transformer_=neo4j.Result.single,
         uid=user_id
     )

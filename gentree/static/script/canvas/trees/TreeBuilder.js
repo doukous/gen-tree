@@ -37,8 +37,8 @@ export default class TreeBuilder {
 
   static async query(familyId, startingCoordinate) {
     const url = new URL(
-    location.pathname + 'api/' + familyId,
-    "http://127.0.0.1:5000"
+      location.pathname + 'api/' + familyId,
+      window.env.server_url
     );
 
     const req = new Request(url);

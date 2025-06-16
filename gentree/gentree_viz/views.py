@@ -15,10 +15,9 @@ def get_tree(gentree_id):
 
     access_right = driver.execute_query(
         """
-        MATCH (:Person { uid: $person_id }) -[r:HAS_ACCESS_TO]-> (:GenealogicalTree { uid: $gentree_id })
+        MATCH (:User { uid: $person_id }) -[r:HAS_ACCESS_TO]-> (:GenealogicalTree { uid: $gentree_id })
         RETURN r.status AS status
         """,
-        database_= 'gentree',
         result_transformer_=neo4j.Result.single,
         gentree_id=str(gentree_id),
         person_id=str(user_id)

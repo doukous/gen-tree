@@ -17,10 +17,9 @@ def login():
 
             user = driver.execute_query(
                 """
-                MATCH (p: Person { email: $email })
+                MATCH (p: User { email: $email })
                 RETURN p.uid AS uid, p.password AS password
                 """,
-                database_='gentree',
                 result_transformer_=neo4j.Result.single,
                 email=form.email.data,
             )
