@@ -2,7 +2,7 @@ from flask import flash, redirect, render_template, request, session, url_for
 import neo4j
 from werkzeug.security import check_password_hash
 from gentree.db import db
-from .forms import LoginForm
+from .forms import LoginForm, RegistrationForm
 from . import auth
 
 
@@ -48,3 +48,16 @@ def login():
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('auth.login'))
+
+@auth.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        form = RegistrationForm()
+
+    else:
+        form = RegistrationForm(request.form)
+
+        if form.validate():
+            return render_template('auth/registration-completed.html')
+
+    return render_template('auth/register.html', form=form)

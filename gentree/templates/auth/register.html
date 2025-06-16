@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Registration page{% endblock %}
+
+{% block body%}
+    <div id="main" class="h-svh flex flex-col items-center justify-center gap-y-8">
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %} 
+        {% endwith %}
+
+        {% if form.errors %}
+            <ul class="errors">
+                {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                    {% for error in field_errors %}
+                        <li>{{ form[field_name].label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>        
+        {% endif %}
+        
+        <h1 class="h1">You are in the register page</h1>
+
+        <form class="flex flex-col items-center justify-center gap-y-8" action="{{ url_for('auth.login') }}" method="post">
+            {{ form.hidden_tag() }}
+                {% for field in form %}
+                    <div>
+                        {{ field.label }}<br>
+                        {{ field(class='input') }}
+                        {% if field.errors %}
+                            <ul class="errors">
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}
