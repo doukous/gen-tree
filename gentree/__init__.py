@@ -9,12 +9,12 @@ def create_app(test_config=None):
         from dotenv import load_dotenv
         load_status = load_dotenv()
 
-    if not load_status:
-        raise RuntimeError("Failed to load dotenv file.")
+        if not load_status:
+            raise RuntimeError("Failed to load dotenv file.")
 
     app = Flask(__name__)
     CORS(app) 
-    
+
     app.config.from_mapping(
         SECRET_KEY=getenv('SECRET_KEY'),
         URI = getenv('NEO4J_URI'),
