@@ -6,4 +6,6 @@ __pycache__
 uv.lock
 docker-compose.yml
 instance
+gentree/static/style/tailwind/output.css
+import
 todos.md
