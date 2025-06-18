@@ -1,0 +1,48 @@
+# .github/workflows/deploy.yml
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Add EC2 to known hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+        chmod 600 ~/.ssh/known_hosts
+
+    - name: Deploy application
+      run: |
+        # Define variables from GitHub Secrets
+        APP_USER=${{ secrets.EC2_USERNAME }}
+        APP_HOST=${{ secrets.EC2_HOST }}
+        APP_DIR=${{ secrets.APP_DIR }}
+        SERVICE_NAME=${{ secrets.SYSTEMD_SERVICE_NAME }}
+
+        echo "Deploying to ${APP_USER}@${APP_HOST}:${APP_DIR}"
+        echo "Code transferred. Running remote commands..."
+
+        ssh ${APP_USER}@${APP_HOST} << 'EOF'
+          cd ${{ secrets.APP_DIR }}
+
+          # Restart the Gunicorn service via Systemd
+          sudo systemctl daemon-reload
+          sudo systemctl restart ${{ secrets.SYSTEMD_SERVICE_NAME }}
+          sudo systemctl status ${{ secrets.SYSTEMD_SERVICE_NAME }} --no-pager
+        EOF
+
+        echo "Deployment complete!"
