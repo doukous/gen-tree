@@ -34,6 +34,7 @@ jobs:
         SERVICE_NAME=${{ secrets.SYSTEMD_SERVICE_NAME }}
 
         echo "Deploying to ${APP_USER}@${APP_HOST}:${APP_DIR}"
+        rsync -az --exclude '.github/' ./ "${APP_USER}@${APP_HOST}:${APP_DIR}"
         echo "Code transferred. Running remote commands..."
 
         ssh ${APP_USER}@${APP_HOST} << 'EOF'
