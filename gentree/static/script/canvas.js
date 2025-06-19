@@ -1,6 +1,6 @@
 import FamilyTree from "./canvas/trees/FamilyTree.js";
 import GenealogicalTree from "./canvas/trees/GenealogicalTree.js";
-import { monitorInteraction } from "./Interactions.js";
+import { monitorInteraction } from "./interactions.js";
 
 window.env = {
   server_url: "http://127.0.0.1:8000"
