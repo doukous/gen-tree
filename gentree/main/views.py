@@ -1,7 +1,7 @@
 from flask import g, render_template
 import neo4j
 from gentree.utils import login_required
-from gentree.db import db
+from gentree.db.neo_driver import db
 from . import main
 
 
@@ -9,19 +9,8 @@ from . import main
 @login_required
 def user_home():
     user_id = g.user_id
-    driver = db.driver
-    result = driver.execute_query(
-        """
-        MATCH (p: Person { uid: $uid })
-        CALL (p) {
-            MATCH (p)-[:HAS_ACCESS_TO]->(g: GenealogicalTree)
-            RETURN collect({
-                id: g.uid,
-                title: g.title
-            }) AS gentrees            
-        }
-        RETURN p.firstname AS firstname, p.uid AS id, gentrees
-        """,
+    result = db.run_query(
+        'get_user_available_gentrees',
         result_transformer_=neo4j.Result.single,
         uid=user_id
     )
@@ -29,7 +18,7 @@ def user_home():
     user_firstname = result['firstname']
 
     user_gentrees = [
-        {'id': gentree['id'], 'title': gentree['title']} 
+        {'id': gentree['id'], 'title': gentree['title']}
         for gentree in result['gentrees']
     ]
 

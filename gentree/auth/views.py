@@ -1,7 +1,7 @@
 from flask import flash, redirect, render_template, request, session, url_for
 import neo4j
 from werkzeug.security import check_password_hash
-from gentree.db import db
+from gentree.db.neo_driver import db
 from .forms import LoginForm, RegistrationForm
 from . import auth
 
@@ -13,17 +13,13 @@ def login():
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            driver = db.driver
 
-            user = driver.execute_query(
-                """
-                MATCH (p: User { email: $email })
-                RETURN p.uid AS uid, p.password AS password
-                """,
+            user = db.run_query(
+                'get_user',
                 result_transformer_=neo4j.Result.single,
                 email=form.email.data,
             )
-   
+
             if user is None:
                 error = 'The entered email is incorrect.'
             elif not check_password_hash(user['password'], form.password.data):
@@ -37,9 +33,9 @@ def login():
                     return redirect(request.args['next'])
                 else:
                     return redirect(url_for('user.user_home'))
-            
+
             flash(error)
-                    
+
     return render_template('auth/login.html', form=form)
 
 
@@ -47,6 +43,7 @@ def login():
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('auth.login'))
+
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():

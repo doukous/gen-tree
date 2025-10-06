@@ -1,7 +1,7 @@
 from flask import Flask
 from os import getenv
 from flask_cors import CORS
-from .db import db
+from gentree.db.neo_driver import db
 
 
 def create_app(test_config=None):
@@ -30,7 +30,7 @@ def create_app(test_config=None):
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
-    from .gentree_viz import genviz as gentree_viz_blueprint
-    app.register_blueprint(gentree_viz_blueprint)
+    from .graph import graph as graph_blueprint
+    app.register_blueprint(graph_blueprint)
 
     return app

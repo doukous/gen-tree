@@ -7,11 +7,11 @@ class LoginForm(FlaskForm):
     email = EmailField('email', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired()])
 
+
 class RegistrationForm(FlaskForm):
     email = EmailField('email', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired()])
-    repeated_password = PasswordField('password confirmation', validators=[DataRequired(), EqualTo(password)])
+    repeated_password = PasswordField('password confirmation', validators=[
+                                      DataRequired(), EqualTo(password)])
 
     name = StringField('name', validators=[DataRequired()])
-
-
